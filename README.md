@@ -5,22 +5,32 @@
 
 2022-09-01 ~
 
+## 기간
 
-## framework
-
-1) 표준프레임워크 3.10.0
-
-https://www.egovframe.go.kr/home/sub.do?menuNo=34
-
-2) mateiral design lite
-
-https://getmdl.io/index.html
+2022-09-01 ~
 
 
+## 기술 스택
 
-## 배포
+### 백 엔드
+- 아파피 톰켓 : 8.5
+- 자바 : 1.8 jdk
+- 표준프레임워크 : 3.10.0
+- 스프링 : 4.3.25
+- mySql : 8.0
 
-### heroku
+### 프론트 엔드
+- html5
+- css3
+- jQeury
+- Material Design Lite
+
+### CD/CI
+- git
+
+### 배포
+
+- heroku
 
 https://egov-web-watcher.herokuapp.com/
 
