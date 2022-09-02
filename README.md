@@ -13,16 +13,16 @@
 - 자바 : 1.8 jdk
 - 표준프레임워크 : 3.10.0
 - 스프링 : 4.3.25
-- mySql : 8.0
+- ㅡySql : 8.0
 
 ### 프론트 엔드
-- html5
-- css3
+- HTML5
+- CSS3
 - jQeury
 - Material Design Lite
 
 ### CD/CI
-- git
+- Git
 
 ### 배포
 
