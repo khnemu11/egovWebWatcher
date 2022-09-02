@@ -38,3 +38,6 @@ https://egov-web-watcher.herokuapp.com/
 2) heroku 최초 배포
 3) 프로젝트 생성 및 sample page 작성
 4) 깃 연동
+
+### 2022-09-02
+1) 테스팅 결과 데이터 추출 및 전처리
