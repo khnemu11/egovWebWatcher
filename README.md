@@ -57,3 +57,4 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
   * seq, 생성/변경/삭제 column을 가지고 있는 객체
 - 공통 service commonServce 추가
   * 현재 시간을 이용해서 ctime/cdate, utime/udate, dtime/udate 값을 설정해주는 매소드 추가
+- katalon recorder를 활용한 테스트 케이스 생성 및 도입 고려
