@@ -45,3 +45,13 @@ https://egov-web-watcher.herokuapp.com/
   
 ### 2022-09-04
 - 테스팅 결과 데이터 등록(~800)
+
+### 2022-09-04
+- login, site 테이블 db에 추가
+- 사이트 패키지 추가
+- 모든 사이트 리스트 출력 기능 추가
+- ibatis dtd 설치 경로 변경으로인한 에러 해결
+- 공통 VO commonVO 추가
+  * seq, 생성/변경/삭제 column을 가지고 있는 객체
+- 공통 service commonSerivce 추가
+  * 현재 시간을 이용해서 ctime/cdate, utime/udate, dtime/udate 값을 설정해주는 매소드 추가
