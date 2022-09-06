@@ -15,6 +15,8 @@
  */
 package egovframework.example.site.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -24,9 +26,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.example.site.service.EgovSiteService;
+import egovframework.example.site.service.SiteVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 /**
  * @Class Name : EgovSampleController.java
@@ -49,8 +53,8 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 public class EgovSiteController {
 
 	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	@Resource(name = "siteService")
+	private EgovSiteService siteService;
 
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -68,28 +72,28 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/egovSiteList.do")
-	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
+	public String selectSampleList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
 
 		/** EgovPropertyService.sample */
-//		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-//
-//		/** pageing setting */
-//		PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-//		paginationInfo.setPageSize(searchVO.getPageSize());
-//
-//		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//
-//		List<?> sampleList = sampleService.selectSampleList(searchVO);
-//		model.addAttribute("resultList", sampleList);
-//
-//		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
-//		paginationInfo.setTotalRecordCount(totCnt);
-//		model.addAttribute("paginationInfo", paginationInfo);
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = siteService.selectSiteList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = siteService.selectSiteListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
 		
 		return "site/egovSiteList";
 	}
@@ -117,7 +121,7 @@ public class EgovSiteController {
 //		paginationInfo.setTotalRecordCount(totCnt);
 //		model.addAttribute("paginationInfo", paginationInfo);
 		
-		return "site/egovSiteList";
+		return "site/{seq}/egovSiteList";
 	}
 	/**
 	 * 글 등록 화면을 조회한다.

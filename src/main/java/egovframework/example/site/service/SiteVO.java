@@ -15,6 +15,8 @@
  */
 package egovframework.example.site.service;
 
+import egovframework.example.cmmn.CommonVO;
+
 /**
  * @Class Name : SampleVO.java
  * @Description : SampleVO Class
@@ -31,63 +33,41 @@ package egovframework.example.site.service;
  *
  *  Copyright (C) by MOPAS All right reserved.
  */
-public class SampleVO extends SampleDefaultVO {
+public class SiteVO extends CommonVO {
 
 	private static final long serialVersionUID = 1L;
 
-	/** 아이디 */
-	private String id;
-
-	/** 이름 */
-	private String name;
-
-	/** 내용 */
-	private String description;
-
-	/** 사용여부 */
-	private String useYn;
-
-	/** 등록자 */
-	private String regUser;
-
-	public String getId() {
-		return id;
+	private int userSeq;
+	private String url;
+	private int scenarioId;
+	private int version;
+	
+	public int getUserSeq() {
+		return userSeq;
 	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setUserSeq(int userSeq) {
+		this.userSeq = userSeq;
 	}
-
-	public String getName() {
-		return name;
+	public String getUrl() {
+		return url;
 	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-
-	public String getDescription() {
-		return description;
+	public int getScenarioId() {
+		return scenarioId;
 	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setScenarioId(int scenarioId) {
+		this.scenarioId = scenarioId;
 	}
-
-	public String getUseYn() {
-		return useYn;
+	public int getVersion() {
+		return version;
 	}
-
-	public void setUseYn(String useYn) {
-		this.useYn = useYn;
+	public void setVersion(int version) {
+		this.version = version;
 	}
-
-	public String getRegUser() {
-		return regUser;
-	}
-
-	public void setRegUser(String regUser) {
-		this.regUser = regUser;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

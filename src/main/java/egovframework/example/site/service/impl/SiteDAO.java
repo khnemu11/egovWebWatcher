@@ -17,12 +17,10 @@ package egovframework.example.site.service.impl;
 
 import java.util.List;
 
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
-
-import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
-
 import org.springframework.stereotype.Repository;
+
+import egovframework.example.site.service.SiteVO;
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
 
 /**
  * @Class Name : SampleDAO.java
@@ -42,7 +40,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository("siteDAO")
-public class SampleDAO extends EgovAbstractDAO {
+public class SiteDAO extends EgovAbstractDAO {
 
 	/**
 	 * 글을 등록한다.
@@ -50,8 +48,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	public String insertSample(SampleVO vo) throws Exception {
-		return (String) insert("sampleDAO.insertSample", vo);
+	public String insertSite(SiteVO vo) throws Exception {
+		return (String) insert("siteDAO.insertSite", vo);
 	}
 
 	/**
@@ -60,8 +58,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return void형
 	 * @exception Exception
 	 */
-	public void updateSample(SampleVO vo) throws Exception {
-		update("sampleDAO.updateSample", vo);
+	public void updateSite(SiteVO vo) throws Exception {
+		update("siteDAO.updateSite", vo);
 	}
 
 	/**
@@ -70,8 +68,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return void형
 	 * @exception Exception
 	 */
-	public void deleteSample(SampleVO vo) throws Exception {
-		delete("sampleDAO.deleteSample", vo);
+	public void deleteSample(SiteVO vo) throws Exception {
+		delete("siteDAO.deleteSite", vo);
 	}
 
 	/**
@@ -80,8 +78,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return 조회한 글
 	 * @exception Exception
 	 */
-	public SampleVO selectSample(SampleVO vo) throws Exception {
-		return (SampleVO) select("sampleDAO.selectSample", vo);
+	public SiteVO selectSite(SiteVO vo) throws Exception {
+		return (SiteVO) select("siteDAO.selectSite", vo);
 	}
 
 	/**
@@ -90,8 +88,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return 글 목록
 	 * @exception Exception
 	 */
-	public List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception {
-		return list("sampleDAO.selectSampleList", searchVO);
+	public List<?> selectSiteList(SiteVO searchVO) throws Exception {
+		return list("siteDAO.selectSiteList", searchVO);
 	}
 
 	/**
@@ -100,8 +98,8 @@ public class SampleDAO extends EgovAbstractDAO {
 	 * @return 글 총 갯수
 	 * @exception
 	 */
-	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
-		return (Integer) select("sampleDAO.selectSampleListTotCnt", searchVO);
+	public int selectSiteListTotCnt(SiteVO searchVO) {
+		return (Integer) select("siteDAO.selectSampleListTotCnt", searchVO);
 	}
 
 }
