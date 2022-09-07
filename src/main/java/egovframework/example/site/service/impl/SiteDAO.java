@@ -99,7 +99,7 @@ public class SiteDAO extends EgovAbstractDAO {
 	 * @exception
 	 */
 	public int selectSiteListTotCnt(SiteVO searchVO) {
-		return (Integer) select("siteDAO.selectSampleListTotCnt", searchVO);
+		return (Integer) select("siteDAO.selectSiteListTotCnt", searchVO);
 	}
 
 }

@@ -97,31 +97,31 @@ public class EgovSiteController {
 		
 		return "site/egovSiteList";
 	}
-	@RequestMapping(value = "/egovSiteList/{seq}.do")
-	public String selectSampleListBySeq(@PathVariable int seq, @ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
-
+	@RequestMapping(value = "/egovSiteList/{userSeq}.do")
+	public String selectSampleListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
 		/** EgovPropertyService.sample */
-//		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-//		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-//
-//		/** pageing setting */
-//		PaginationInfo paginationInfo = new PaginationInfo();
-//		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-//		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-//		paginationInfo.setPageSize(searchVO.getPageSize());
-//
-//		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-//		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-//		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-//
-//		List<?> sampleList = sampleService.selectSampleList(searchVO);
-//		model.addAttribute("resultList", sampleList);
-//
-//		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
-//		paginationInfo.setTotalRecordCount(totCnt);
-//		model.addAttribute("paginationInfo", paginationInfo);
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 		
-		return "site/{seq}/egovSiteList";
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
+
+		searchVO.setUserSeq(userSeq);
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+
+		List<?> sampleList = siteService.selectSiteList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = siteService.selectSiteListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+		
+		return "site/egovSiteList";
 	}
 	/**
 	 * 글 등록 화면을 조회한다.
