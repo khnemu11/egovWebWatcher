@@ -62,5 +62,4 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
 ### 2022-09-07
 - user 테이블 db에 추가
 - 사이트 리스트 페이징 추가
-- 모든 사이트 리스트 출력 기능 추가
 - 유저 별 사이트 리스트 페이지 추가
