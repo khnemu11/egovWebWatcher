@@ -20,13 +20,19 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.example.sample.service.SampleVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -88,8 +94,8 @@ public class EgovSiteController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<?> sampleList = siteService.selectSiteList(searchVO);
-		model.addAttribute("resultList", sampleList);
+		List<?> siteList = siteService.selectSiteList(searchVO);
+		model.addAttribute("resultList", siteList);
 
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -114,8 +120,8 @@ public class EgovSiteController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<?> sampleList = siteService.selectSiteList(searchVO);
-		model.addAttribute("resultList", sampleList);
+		List<?> siteList = siteService.selectSiteList(searchVO);
+		model.addAttribute("resultList", siteList);
 
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
@@ -135,15 +141,15 @@ public class EgovSiteController {
 //		model.addAttribute("sampleVO", new SampleVO());
 //		return "sample/egovSampleRegister";
 //	}
-//
-//	/**
-//	 * 글을 등록한다.
-//	 * @param sampleVO - 등록할 정보가 담긴 VO
-//	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-//	 * @param status
-//	 * @return "forward:/egovSampleList.do"
-//	 * @exception Exception
-//	 */
+
+	/**
+	 * 글을 등록한다.
+	 * @param sampleVO - 등록할 정보가 담긴 VO
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 */
 //	@RequestMapping(value = "/addSample.do", method = RequestMethod.POST)
 //	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status)
 //			throws Exception {
@@ -160,15 +166,15 @@ public class EgovSiteController {
 //		status.setComplete();
 //		return "forward:/egovSampleList.do";
 //	}
-//
-//	/**
-//	 * 글 수정화면을 조회한다.
-//	 * @param id - 수정할 글 id
-//	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-//	 * @param model
-//	 * @return "egovSampleRegister"
-//	 * @exception Exception
-//	 */
+
+	/**
+	 * 글 수정화면을 조회한다.
+	 * @param id - 수정할 글 id
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param model
+	 * @return "egovSampleRegister"
+	 * @exception Exception
+	 */
 //	@RequestMapping("/updateSampleView.do")
 //	public String updateSampleView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 //		SampleVO sampleVO = new SampleVO();
@@ -177,19 +183,19 @@ public class EgovSiteController {
 //		model.addAttribute(selectSample(sampleVO, searchVO));
 //		return "sample/egovSampleRegister";
 //	}
-//
-//	/**
-//	 * 글을 조회한다.
-//	 * @param sampleVO - 조회할 정보가 담긴 VO
-//	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-//	 * @param status
-//	 * @return @ModelAttribute("sampleVO") - 조회한 정보
-//	 * @exception Exception
-//	 */
+
+	/**
+	 * 글을 조회한다.
+	 * @param sampleVO - 조회할 정보가 담긴 VO
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return @ModelAttribute("sampleVO") - 조회한 정보
+	 * @exception Exception
+	 */
 //	public SampleVO selectSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
 //		return sampleService.selectSample(sampleVO);
 //	}
-//
+
 //	/**
 //	 * 글을 수정한다.
 //	 * @param sampleVO - 수정할 정보가 담긴 VO

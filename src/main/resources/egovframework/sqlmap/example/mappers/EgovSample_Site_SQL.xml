@@ -99,6 +99,13 @@
 				</when>
 			</choose>
 		</if>
+		<if test="userSeq != null and userSeq != 0">
+			<choose>
+				<when test="searchCondition == 0">
+					AND USER_SEQ = #{userSeq}
+				</when>
+			</choose>
+		</if>
 	</select>
 
 </mapper>
