@@ -1,5 +1,5 @@
 # egovWebWatcher
-표준프레임워크로 웹 와쳐 구현
+산학 프로젝트 "웹 어플리케이션 테스팅 자동화 서비스를 제공하는 웹 어플리케이션(Web Watcher)"를 표준프레임워크로 이전하는 프로젝트
 
 ## 기간
 
@@ -58,3 +58,8 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
 - 공통 service commonServce 추가
   * 현재 시간을 이용해서 ctime/cdate, utime/udate, dtime/udate 값을 설정해주는 매소드 추가
 - katalon recorder를 활용한 테스트 케이스 생성 및 도입 고려
+
+### 2022-09-07
+- user 테이블 db에 추가
+- 사이트 리스트 페이징 추가
+- 유저 별 사이트 리스트 페이지 추가

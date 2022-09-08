@@ -63,57 +63,58 @@
 
 
 
+				<form:form commandName="searchVO" id="listForm" name="listForm"
+					method="post">
+					<input type="hidden" name="selectedId" />
 
-
-				<div style="height: 200px">site sample</div>
-				<div id="table">
-					<table width="100%" border="0" cellpadding="0" cellspacing="0"
-						summary="SEQ, url">
-						<caption style="visibility: hidden">카테고리ID, 케테고리명, 사용여부,
-							Description, 등록자 표시하는 테이블</caption>
-						<colgroup>
-							<col width="40" />
-							<col width="100" />
-						</colgroup>
-						<tr>
-							<th align="center">No</th>
-							<th align="center">url</th>
-						</tr>
-						<c:forEach var="result" items="${resultList}" varStatus="status">
+					<div style="height: 200px">site sample</div>
+					<div id="table">
+						<table width="100%" border="0" cellpadding="0" cellspacing="0"
+							summary="SEQ, url">
+							<caption style="visibility: hidden">카테고리ID, 케테고리명,
+								사용여부, Description, 등록자 표시하는 테이블</caption>
+							<colgroup>
+								<col width="40" />
+								<col width="100" />
+							</colgroup>
 							<tr>
-							<%-- 	<td align="center" class="listtd"><c:out
+								<th align="center">No</th>
+								<th align="center">url</th>
+							</tr>
+							<c:forEach var="result" items="${resultList}" varStatus="status">
+								<tr>
+									<%-- 	<td align="center" class="listtd"><c:out
 										value="${paginationInfo.totalRecordCount+1 - ((searchVO.pageIndex-1) * searchVO.pageSize + status.count)}" /></td>
-							 --%>	
-<%-- 							 	<td align="center" class="listtd"><a
+							 --%>
+									<%-- 							 	<td align="center" class="listtd"><a
 									href="javascript:fn_egov_select('<c:out value="${result.id}"/>')"><c:out
 											value="${result.id}" /></a></td> --%>
-								<td align="left" class="listtd"><c:out
-										value="${result.seq}" />&nbsp;</td>
-								<td align="center" class="listtd"><c:out
-										value="${result.url}" />&nbsp;</td>
-							</tr>
-						</c:forEach>
-					</table>
-				</div>
-				<!-- /List -->
-<%-- 				<div id="paging">
-					<ui:pagination paginationInfo="${paginationInfo}" type="image"
-						jsFunction="fn_egov_link_page" />
-					<form:hidden path="pageIndex" />
-				</div>
-				<div id="sysbtn">
-					<ul>
-						<li><span class="btn_blue_l"> <a
-								href="javascript:fn_egov_addView();"><spring:message
-										code="button.create" /></a> <img
-								src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
-								style="margin-left: 6px;" alt="" />
-						</span></li>
-					</ul>
-				</div> --%>
-
-
-
+									<td align="left" class="listtd"><c:out
+											value="${result.seq}" />&nbsp;</td>
+									<td align="center" class="listtd"><c:out
+											value="${result.url}" />&nbsp;</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+					<!-- /List -->
+					<div id="paging">
+						<ui:pagination paginationInfo="${paginationInfo}" type="image"
+							jsFunction="fn_egov_link_page" />
+						<form:hidden path="pageIndex" />
+					</div>
+					
+					<div id="sysbtn">
+						<ul>
+							<li><span class="btn_blue_l"> <a
+									href="javascript:fn_egov_addView();"><spring:message
+											code="button.create" /></a> <img
+									src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
+									style="margin-left: 6px;" alt="" />
+							</span></li>
+						</ul>
+					</div>
+			</form:form>
 
 
 				<!-- 여기부터 푸터-->
