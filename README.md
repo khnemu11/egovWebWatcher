@@ -63,3 +63,9 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
 - user 테이블 db에 추가
 - 사이트 리스트 페이징 추가
 - 유저 별 사이트 리스트 페이지 추가
+
+### 2022-09-13
+- site insert 기능 추가
+- site insert에 validator 추가
+- 오류 해결
+  * 엔터를 누를 시 validator를 거치지 않고 sibmit이 되는 오류 해결 -> event.preventDefault를 이용해 엔터로 submit 행위 블락
