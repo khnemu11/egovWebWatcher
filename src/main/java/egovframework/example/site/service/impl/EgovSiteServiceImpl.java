@@ -24,11 +24,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import egovframework.example.cmmn.CommonServiceImpl;
-import egovframework.example.sample.service.EgovSampleService;
-import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
 /**
@@ -140,9 +137,10 @@ public class EgovSiteServiceImpl extends CommonServiceImpl implements EgovSiteSe
 	}
 
 	@Override
-	public String insertSite(SiteVO vo) throws Exception {
+	public void insertSite(SiteVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		setInsert(vo);
+		siteDAO.insertSite(vo);
 	}
 
 	@Override

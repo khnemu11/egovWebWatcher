@@ -41,7 +41,7 @@ public interface EgovSiteService {
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
-	String insertSite(SiteVO vo) throws Exception;
+	void insertSite(SiteVO vo) throws Exception;
 
 	/**
 	 * 글을 수정한다.

@@ -136,11 +136,11 @@ public class EgovSiteController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-//	@RequestMapping(value = "/addSample.do", method = RequestMethod.GET)
-//	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-//		model.addAttribute("sampleVO", new SampleVO());
-//		return "sample/egovSampleRegister";
-//	}
+	@RequestMapping(value = "/addSite.do", method = RequestMethod.GET)
+	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute("siteVO", new SiteVO());
+		return "site/egovSiteRegister";
+	}
 
 	/**
 	 * 글을 등록한다.
@@ -150,22 +150,22 @@ public class EgovSiteController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-//	@RequestMapping(value = "/addSample.do", method = RequestMethod.POST)
-//	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status)
-//			throws Exception {
-//
-//		// Server-Side Validation
-//		beanValidator.validate(sampleVO, bindingResult);
-//
-//		if (bindingResult.hasErrors()) {
-//			model.addAttribute("sampleVO", sampleVO);
-//			return "sample/egovSampleRegister";
-//		}
-//
-//		sampleService.insertSample(sampleVO);
-//		status.setComplete();
-//		return "forward:/egovSampleList.do";
-//	}
+	@RequestMapping(value = "/addSite.do", method = RequestMethod.POST)
+	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SiteVO siteVO, BindingResult bindingResult, Model model, SessionStatus status)
+			throws Exception {
+
+		// Server-Side Validation
+		beanValidator.validate(siteVO, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("siteVO", siteVO);
+			return "sample/egovSiteRegister";
+		}
+
+		siteService.insertSite(siteVO);
+		status.setComplete();
+		return "forward:/egovSiteList.do";
+	}
 
 	/**
 	 * 글 수정화면을 조회한다.

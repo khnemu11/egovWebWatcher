@@ -29,6 +29,31 @@
 <link rel="stylesheet"
 	href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script type="text/javaScript" language="javascript" defer="defer">
+
+        /* 글 목록 화면 function */
+        function fn_egov_selectList() {
+           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
+           	document.detailForm.submit();
+        }
+        
+        /* 글 삭제 function */
+        function fn_egov_delete() {
+           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
+           	document.detailForm.submit();
+        }
+        
+        /* 글 등록 function */
+        function fn_egov_save() {
+        	frm = document.detailForm;
+        	if(!validateSampleVO(frm)){
+                return;
+            }else{
+            	frm.action = "<c:url value='/addSite.do'/>";
+                frm.submit();
+            }
+        }
+    </script>
 </head>
 <body>
 	<!-- Always shows a header, even in smaller screens. -->
@@ -103,18 +128,18 @@
 							jsFunction="fn_egov_link_page" />
 						<form:hidden path="pageIndex" />
 					</div>
-					
+
 					<div id="sysbtn">
 						<ul>
 							<li><span class="btn_blue_l"> <a
-									href="javascript:fn_egov_addView();"><spring:message
+									href="./addSite.do"><spring:message
 											code="button.create" /></a> <img
 									src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 									style="margin-left: 6px;" alt="" />
 							</span></li>
 						</ul>
 					</div>
-			</form:form>
+				</form:form>
 
 
 				<!-- 여기부터 푸터-->

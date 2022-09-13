@@ -18,5 +18,11 @@
 			</field>
         </form>
     </formset>
-
+	<formset>
+        <form name="siteVO">
+        	<field property="url" depends="required">
+        		<arg0 key="site.url" />
+			</field>
+        </form>
+    </formset>
 </form-validation>

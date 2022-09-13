@@ -44,7 +44,7 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl {
 		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HHmmss");
 		
 		sample.setCdate(Integer.valueOf(now.format(dateformat)));		
-		sample.setCdate(Integer.valueOf(now.format(timeformat)));
+		sample.setCtime(Integer.valueOf(now.format(timeformat)));
 	}
 	public void setUpdate(CommonVO sample) {
 		LocalDateTime now = LocalDateTime.now(); 
@@ -52,7 +52,7 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl {
 		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HHmmss");
 		
 		sample.setUdate(Integer.valueOf(now.format(dateformat)));		
-		sample.setUdate(Integer.valueOf(now.format(timeformat)));
+		sample.setUtime(Integer.valueOf(now.format(timeformat)));
 	}
 	public void setDelete(CommonVO sample) {
 		LocalDateTime now = LocalDateTime.now(); 
@@ -60,6 +60,6 @@ public class CommonServiceImpl extends EgovAbstractServiceImpl {
 		DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("HHmmss");
 		
 		sample.setDdate(Integer.valueOf(now.format(dateformat)));		
-		sample.setDdate(Integer.valueOf(now.format(timeformat)));
+		sample.setDtime(Integer.valueOf(now.format(timeformat)));
 	}
 }

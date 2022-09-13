@@ -23,47 +23,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <c:set var="registerFlag" value="${empty sampleVO.id ? 'create' : 'modify'}"/>
+    <c:set var="registerFlag" value="${empty siteVO.url ? 'create' : 'modify'}"/>
     <title>Sample <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
                   <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
     </title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
-    
     <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
+    <validator:javascript formName="siteVO" staticJavascript="false" xhtml="true" cdata="false"/>
     
     <script type="text/javaScript" language="javascript" defer="defer">
-        <!--
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
+           	document.detailForm.action = "<c:url value='/egovSiteList.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 삭제 function */
         function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
+           	document.detailForm.action = "<c:url value='/deleteSite.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;
-        	if(!validateSampleVO(frm)){
+        	if(!validateSiteVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSite.do' : '/updateSite.do'}"/>";
                 frm.submit();
             }
         }
-        
-        -->
     </script>
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
 
-<form:form commandName="sampleVO" id="detailForm" name="detailForm">
+<form:form commandName="siteVO" id="detailForm" name="detailForm">
     <div id="content_pop">
     	<!-- 타이틀 -->
     	<div id="title">
@@ -83,45 +79,18 @@
     		</colgroup>
     		<c:if test="${registerFlag == 'modify'}">
         		<tr>
-        			<td class="tbtd_caption"><label for="id"><spring:message code="title.sample.id" /></label></td>
+        			<td class="tbtd_caption"><label for="seq"><spring:message code="site.seq" /></label></td>
         			<td class="tbtd_content">
-        				<form:input path="id" cssClass="essentiality" maxlength="10" readonly="true" />
+        				<form:input path="seq" cssClass="essentiality" maxlength="10" readonly="true" />
         			</td>
         		</tr>
     		</c:if>
     		<tr>
-    			<td class="tbtd_caption"><label for="name"><spring:message code="title.sample.name" /></label></td>
+    			<td class="tbtd_caption"><label for="url"><spring:message code="site.url" /></label></td>
     			<td class="tbtd_content">
-    				<form:input path="name" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="name" />
+    				<form:input path="url" maxlength="30" cssClass="txt"/>
+    				&nbsp;<form:errors path="url" />
     			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="useYn"><spring:message code="title.sample.useYn" /></label></td>
-    			<td class="tbtd_content">
-    				<form:select path="useYn" cssClass="use">
-    					<form:option value="Y" label="Yes" />
-    					<form:option value="N" label="No" />
-    				</form:select>
-    			</td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="description"><spring:message code="title.sample.description" /></label></td>
-    			<td class="tbtd_content">
-    				<form:textarea path="description" rows="5" cols="58" />&nbsp;<form:errors path="description" />
-                </td>
-    		</tr>
-    		<tr>
-    			<td class="tbtd_caption"><label for="regUser"><spring:message code="title.sample.regUser" /></label></td>
-    			<td class="tbtd_content">
-                    <c:if test="${registerFlag == 'modify'}">
-        				<form:input path="regUser" maxlength="10" cssClass="essentiality" readonly="true" />
-        				&nbsp;<form:errors path="regUser" /></td>
-                    </c:if>
-                    <c:if test="${registerFlag != 'modify'}">
-        				<form:input path="regUser" maxlength="10" cssClass="txt"  />
-        				&nbsp;<form:errors path="regUser" /></td>
-                    </c:if>
     		</tr>
     	</table>
       </div>
