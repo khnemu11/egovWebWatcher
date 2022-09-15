@@ -37,7 +37,8 @@
 	<delete id="deleteSite">
 		UPDATE SITE
 		SET DDATE=#{ddate},
-		DTIME=#{dtime}
+			DTIME=#{dtime},
+			VERSION = VERSION+1
 		WHERE seq=#{seq}
 	</delete>
 

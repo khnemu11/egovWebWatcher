@@ -57,6 +57,12 @@
                 frm.submit();
             }
         }
+        /*표준프레임워크 페이징 */
+        function fn_egov_link_page(pageNo){
+        	document.listForm.pageIndex.value = pageNo;
+        	document.listForm.action = "<c:url value='/egovSiteList.do'/>";
+           	document.listForm.submit();
+        }
     </script>
 </head>
 <body>
