@@ -74,3 +74,5 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
   
 ### 2022-09-15
  - scenario 테이블 생성
+ - 오류 해결
+   * 사이트 리스트 페이징 경로 에러 -> c:url를 문자열로 대체
