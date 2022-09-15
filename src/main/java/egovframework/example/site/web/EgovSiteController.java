@@ -15,9 +15,13 @@
  */
 package egovframework.example.site.web;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +34,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+import egovframework.example.file.service.FileService;
+import egovframework.example.file.service.FileVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
+import egovframework.example.site.service.SiteWithFileVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -59,6 +66,8 @@ public class EgovSiteController {
 	/** EgovSampleService */
 	@Resource(name = "siteService")
 	private EgovSiteService siteService;
+	@Resource(name = "fileService")
+	private FileService fileService;
 
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -76,8 +85,9 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/egovSiteList.do")
-	public String selectSampleList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
+	public String selectSiteList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model, HttpServletRequest request) throws Exception {
 
+		
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -102,7 +112,7 @@ public class EgovSiteController {
 		return "site/egovSiteList";
 	}
 	@RequestMapping(value = "/egovSiteList/{userSeq}.do")
-	public String selectSampleListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
+	public String selectSiteListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -135,8 +145,8 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/addSite.do", method = RequestMethod.GET)
-	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("siteVO", new SiteVO());
+	public String addSiteView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute("siteWithFileVO", new SiteWithFileVO());
 		return "site/egovSiteRegister";
 	}
 
@@ -149,19 +159,31 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/addSite.do", method = RequestMethod.POST)
-	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SiteVO siteVO, BindingResult bindingResult, Model model, SessionStatus status)
+	public String addSite(@ModelAttribute("siteWithFileVO") SiteWithFileVO vo, BindingResult bindingResult, Model model, SessionStatus status,HttpServletRequest request)
 			throws Exception {
-
-		// Server-Side Validation
-		beanValidator.validate(siteVO, bindingResult);
 		
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("siteVO", siteVO);
-			return "sample/egovSiteRegister";
+		String path = "/scenario";
+		String absolutePath = request.getServletContext().getRealPath(path);
+		Path paths = Paths.get(absolutePath);
+		
+		if(vo.getFile() !=null) {
+			siteService.insertSite(vo);
+			
+			System.out.println(absolutePath);
+			
+			File file = new File(absolutePath,vo.getFile().getOriginalFilename());
+			if(file.exists()) {
+				file.delete();
+			}
+			vo.getFile().transferTo(new File(absolutePath,vo.getFile().getOriginalFilename()));
+			
+			FileVO fileVO = new FileVO();
+			fileVO.setName(vo.getFile().getOriginalFilename());
+			
+			fileService.insertFile(fileVO);
 		}
-
-		siteService.insertSite(siteVO);
-		status.setComplete();
+		
+		
 		return "forward:/egovSiteList.do";
 	}
 
@@ -227,7 +249,7 @@ public class EgovSiteController {
 //	 * @exception Exception
 //	 */
 	@RequestMapping("/deleteSite/{seq}.do")
-	public String deleteSample(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status) throws Exception {
+	public String deleteSite(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status) throws Exception {
 		siteVO.setSeq(seq);
 		siteService.deleteSite(siteVO);
 

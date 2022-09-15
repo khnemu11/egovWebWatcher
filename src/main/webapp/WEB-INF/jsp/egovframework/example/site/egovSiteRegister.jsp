@@ -36,7 +36,7 @@
 	href="<c:url value='/css/egovframework/sample.css'/>" />
 <!--For Commons Validator Client Side-->
 <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-<validator:javascript formName="siteVO" staticJavascript="false"
+<validator:javascript formName="siteWithFileVO" staticJavascript="false"
 	xhtml="true" cdata="false" />
 
 <script type="text/javaScript" language="javascript" defer="defer">
@@ -61,10 +61,11 @@
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;
-        	if(!validateSiteVO(frm)){
+        	if(!validateSiteWithFileVO(frm)){
                 return;
             }else{
             	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSite.do' : '/updateSite.do'}"/>";
+            	frm.method = "POST";
                 frm.submit();
             }
         }
@@ -73,7 +74,7 @@
 <body
 	style="text-align: center; margin: 0 auto; display: inline; padding-top: 100px;">
 
-	<form:form commandName="siteVO" id="detailForm" name="detailForm">
+	<form:form commandName="siteWithFileVO" id="detailForm" name="detailForm"  enctype="multipart/form-data">
 		<div id="content_pop">
 			<!-- 타이틀 -->
 			<div id="title">
@@ -108,6 +109,10 @@
 									code="site.url" /></label></td>
 						<td class="tbtd_content"><form:input path="url"
 								maxlength="30" cssClass="txt" /> &nbsp; <form:errors path="url" /></td>
+				 	<td class="tbtd_caption"><label for="file"><spring:message
+									code="site.file" /></label></td>
+						<td class="tbtd_content"><form:input path="file" type="file"
+								maxlength="30" cssClass="txt" /> &nbsp; <form:errors path="file" /></td> 
 					</tr>
 				</table>
 			</div>

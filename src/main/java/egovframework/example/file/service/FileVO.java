@@ -1,5 +1,5 @@
 /*
- * Copyright 2008-2009 the original author or authors.
+site.url * Copyright 2008-2009 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package egovframework.example.site.service;
+package egovframework.example.file.service;
 
-import org.springframework.web.multipart.MultipartFile;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.sql.Blob;
 
 import egovframework.example.cmmn.CommonVO;
 
 /**
- * @Class Name : SampleVO.java
- * @Description : SampleVO Class
+ * @Class Name : SampleDefaultVO.java
+ * @Description : SampleDefaultVO Class
  * @Modification Information
  * @ @ 수정일 수정자 수정내용 @ --------- --------- ------------------------------- @
  *   2009.03.16 최초생성
@@ -33,22 +35,23 @@ import egovframework.example.cmmn.CommonVO;
  *
  *      Copyright (C) by MOPAS All right reserved.
  */
-public class SiteVO extends CommonVO {
-
+public class FileVO extends CommonVO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private int userSeq;
+	private String name;
 	private String url;
-	private int scenarioId;
-	private int version;
-	private MultipartFile file;
-
-	public int getUserSeq() {
-		return userSeq;
+	
+	@Override
+	public String toString() {
+		return "FileVO [name=" + name + ", url=" + url + "]";
 	}
 
-	public void setUserSeq(int userSeq) {
-		this.userSeq = userSeq;
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getUrl() {
@@ -57,34 +60,6 @@ public class SiteVO extends CommonVO {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public int getScenarioId() {
-		return scenarioId;
-	}
-
-	public void setScenarioId(int scenarioId) {
-		this.scenarioId = scenarioId;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
 	}
 
 }

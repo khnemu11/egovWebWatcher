@@ -46,7 +46,6 @@
         		location.href = url;
         	}
         }
-        
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;

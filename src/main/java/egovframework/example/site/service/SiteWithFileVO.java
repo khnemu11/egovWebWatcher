@@ -15,9 +15,7 @@
  */
 package egovframework.example.site.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
-import egovframework.example.cmmn.CommonVO;
+import com.mysql.cj.jdbc.Blob;
 
 /**
  * @Class Name : SampleVO.java
@@ -33,58 +31,33 @@ import egovframework.example.cmmn.CommonVO;
  *
  *      Copyright (C) by MOPAS All right reserved.
  */
-public class SiteVO extends CommonVO {
-
+public class SiteWithFileVO extends SiteVO {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
+	private String name;
+	private Blob binary;
 
-	private int userSeq;
-	private String url;
-	private int scenarioId;
-	private int version;
-	private MultipartFile file;
-
-	public int getUserSeq() {
-		return userSeq;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserSeq(int userSeq) {
-		this.userSeq = userSeq;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getUrl() {
-		return url;
+	public Blob getBinary() {
+		return binary;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
+	public void setBinary(Blob binary) {
+		this.binary = binary;
 	}
 
-	public int getScenarioId() {
-		return scenarioId;
-	}
-
-	public void setScenarioId(int scenarioId) {
-		this.scenarioId = scenarioId;
-	}
-
-	public int getVersion() {
-		return version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
+	@Override
+	public String toString() {
+		return "SiteWithFileVO [name=" + name + ", binary=" + binary + "]";
 	}
 
 }
