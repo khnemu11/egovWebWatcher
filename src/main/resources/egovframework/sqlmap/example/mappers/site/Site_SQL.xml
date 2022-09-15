@@ -15,7 +15,8 @@
 	<insert id="insertSite" parameterType="SiteVO">
 		INSERT INTO SITE
 		( URL
-		, CDATE
+		,
+		CDATE
 		, CTIME)
 		VALUES ( #{url}
 		, #{cdate}
@@ -23,26 +24,27 @@
 	</insert>
 
 	<update id="updateSite">
-
 		UPDATE SAMPLE
 		SET ID=#{id}
 		, NAME=#{name}
-		, DESCRIPTION=#{description}
+		,
+		DESCRIPTION=#{description}
 		, USE_YN=#{useYn}
 		WHERE ID=#{id}
 
 	</update>
 
 	<delete id="deleteSite">
-
-		DELETE FROM SAMPLE
-		WHERE ID=#{id}
-
+		UPDATE SITE
+		SET DDATE=#{ddate},
+		DTIME=#{dtime}
+		WHERE seq=#{seq}
 	</delete>
 
 	<select id="selectSite" resultMap="sample">
 		SELECT
-		ID, NAME, DESCRIPTION, USE_YN, REG_USER
+		ID, NAME, DESCRIPTION,
+		USE_YN, REG_USER
 		FROM SAMPLE
 		WHERE ID=#{id}
 
@@ -51,10 +53,11 @@
 	<select id="selectSiteList" parameterType="searchVO"
 		resultType="egovMap">
 		SELECT
-		SEQ, USER_SEQ, URL, SCENARIO_ID, VERSION, CTIME, CDATE, UTIME, UDATE,
+		SEQ, USER_SEQ, URL, SCENARIO_ID, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
 		DTIME, DDATE
 		FROM SITE
-		WHERE 1=1
+		WHERE DDATE =0 AND DTIME=0
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
 				<when test="searchCondition == 0">
@@ -81,7 +84,7 @@
 
 		SELECT COUNT(*) totcnt
 		FROM SITE
-		WHERE 1=1
+		WHERE DDATE =0 AND DTIME =0
 		<if test="searchKeyword != null and searchKeyword != ''">
 			<choose>
 				<when test="searchCondition == 0">

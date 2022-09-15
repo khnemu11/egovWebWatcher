@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Login">
+    <resultMap id="selectLoginMap" type="egovframework.example.login.service.LoginVO">
+		<result column="LOGIN_ID" property="loginId"/>
+		<result column="LANGUAGE" property="language"/>
+		<result column="DISPNAME" property="dispname"/>
+		<result column="FAILCOUNT" property="failcount"/>
+		<result column="FAILCOUNTLIMIT" property="failcountlimit"/>
+		<result column="FAILCOUNTTOTAL" property="failcounttotal"/>
+		<result column="FAILBLOCKTIME" property="failblocktime"/>
+		<result column="LOCKFLAG" property="lockflag"/>
+		<result column="LOGINIPADDRESS" property="loginipaddress"/>
+		<result column="LATESTLOGINDATETIME" property="latestlogindatetime"/>
+		<result column="BLOCKDATE" property="blockdate"/>
+	</resultMap>
+
+	<select id="selectLoginSeq" resultType="long">
+		select USER_SEQ
+			from TARCLOGIN
+		where
+			LOGIN_ID = #{loginId}
+			AND DDATE = 0
+	</select>
+
+	<select id="selectLogin" resultMap="selectLoginMap">
+		select LOGIN_ID, LANGUAGE, DISPNAME,FAILCOUNT, FAILCOUNTTOTAL,FAILCOUNTLIMIT,FAILBLOCKTIME,LOCKFLAG,LOGINIPADDRESS,LATESTLOGINDATETIME,BLOCKDATE
+			from TARCLOGIN, TUSER
+		where
+		    TARCLOGIN.USER_SEQ = TUSER.SEQ
+			AND LOGIN_ID = #{loginId}
+			AND TARCLOGIN.DDATE = 0
+			AND TUSER.DDATE = 0
+	</select>
+
+	<select id="selectLoginCheck" resultType="long">
+		select count(*)
+			from TARCLOGIN
+		where
+			LOGIN_ID = #{loginId}
+			AND PASSWORD = #{password}
+	</select>
+	<update id="updateLoginFail" parameterType="egovframework.example.login.service.LoginVO">
+		update
+			TARCLOGIN
+		set
+			FAILCOUNT = #{failcount}
+			,FAILCOUNTTOTAL= #{failcounttotal}
+			,LOCKFLAG = #{lockflag}
+			,LOGINIPADDRESS = #{loginipaddress}
+			,LATESTLOGINDATETIME = #{latestlogindatetime}
+			,BLOCKDATE = #{blockdate}
+		where
+			LOGIN_ID = #{loginId}
+	</update>
+</mapper>

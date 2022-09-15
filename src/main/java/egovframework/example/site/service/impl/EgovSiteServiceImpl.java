@@ -152,7 +152,8 @@ public class EgovSiteServiceImpl extends CommonServiceImpl implements EgovSiteSe
 	@Override
 	public void deleteSite(SiteVO vo) throws Exception {
 		// TODO Auto-generated method stub
-
+		setDelete(vo);
+		siteDAO.deleteSite(vo);
 	}
 
 	@Override

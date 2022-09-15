@@ -32,15 +32,19 @@
 <script type="text/javaScript" language="javascript" defer="defer">
 
         /* 글 목록 화면 function */
-        function fn_egov_selectList() {
+/*         function fn_egov_selectList() {
            	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
            	document.detailForm.submit();
         }
-        
+         */
         /* 글 삭제 function */
-        function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
-           	document.detailForm.submit();
+        function fn_egov_delete(seq) {
+        	if(confirm("정말로 삭제하시겠습니까?")){
+        		var url = "./deleteSite/";
+        		url= url+ seq;
+        		url=url+".do";
+        		location.href = url;
+        	}
         }
         
         /* 글 등록 function */
@@ -93,18 +97,20 @@
 					<input type="hidden" name="selectedId" />
 
 					<div style="height: 200px">site sample</div>
-					<div id="table">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0"
+					<div id="table" align="center">
+						<table width="80%" border="0" cellpadding="0" cellspacing="0"
 							summary="SEQ, url">
 							<caption style="visibility: hidden">카테고리ID, 케테고리명,
 								사용여부, Description, 등록자 표시하는 테이블</caption>
 							<colgroup>
 								<col width="40" />
-								<col width="100" />
+								<col width="40" />
+								<col width="40" />
 							</colgroup>
 							<tr>
 								<th align="center">No</th>
-								<th align="center">url</th>
+								<th align="center">URL</th>
+								<th align="center">Action</th>
 							</tr>
 							<c:forEach var="result" items="${resultList}" varStatus="status">
 								<tr>
@@ -114,16 +120,20 @@
 									<%-- 							 	<td align="center" class="listtd"><a
 									href="javascript:fn_egov_select('<c:out value="${result.id}"/>')"><c:out
 											value="${result.id}" /></a></td> --%>
-									<td align="left" class="listtd"><c:out
-											value="${result.seq}" />&nbsp;</td>
+									<td align="center" class="listtd"><c:out
+											value="${status.count}" />&nbsp;</td>
+								<%-- 	<td align="center" class="listtd"><c:out
+											value="${result.seq}" />&nbsp;</td> --%>
 									<td align="center" class="listtd"><c:out
 											value="${result.url}" />&nbsp;</td>
+											<td align="center" class="listtd"><c:out
+											value=""/><a href="javascript:void(0)" onclick="fn_egov_delete(${result.seq})">delete&nbsp;</a></td>
 								</tr>
 							</c:forEach>
 						</table>
 					</div>
 					<!-- /List -->
-					<div id="paging">
+					<div id="paging" align="center">
 						<ui:pagination paginationInfo="${paginationInfo}" type="image"
 							jsFunction="fn_egov_link_page" />
 						<form:hidden path="pageIndex" />

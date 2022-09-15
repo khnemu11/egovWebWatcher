@@ -27,12 +27,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -228,11 +226,12 @@ public class EgovSiteController {
 //	 * @return "forward:/egovSampleList.do"
 //	 * @exception Exception
 //	 */
-//	@RequestMapping("/deleteSample.do")
-//	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SessionStatus status) throws Exception {
-//		sampleService.deleteSample(sampleVO);
-//		status.setComplete();
-//		return "forward:/egovSampleList.do";
-//	}
+	@RequestMapping("/deleteSite/{seq}.do")
+	public String deleteSample(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status) throws Exception {
+		siteVO.setSeq(seq);
+		siteService.deleteSite(siteVO);
+
+		return "redirect:/egovSiteList.do";
+	}
 
 }
