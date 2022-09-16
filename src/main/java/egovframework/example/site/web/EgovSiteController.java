@@ -16,6 +16,7 @@
 package egovframework.example.site.web;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -47,17 +48,15 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
  * @Class Name : EgovSampleController.java
  * @Description : EgovSample Controller Class
  * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16           최초생성
+ * @ @ 수정일 수정자 수정내용 @ --------- --------- ------------------------------- @
+ *   2009.03.16 최초생성
  *
  * @author 개발프레임웍크 실행환경 개발팀
  * @since 2009. 03.16
  * @version 1.0
  * @see
  *
- *  Copyright (C) by MOPAS All right reserved.
+ *      Copyright (C) by MOPAS All right reserved.
  */
 
 @Controller
@@ -79,15 +78,16 @@ public class EgovSiteController {
 
 	/**
 	 * 글 목록을 조회한다. (pageing)
+	 * 
 	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
 	 * @param model
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/egovSiteList.do")
-	public String selectSiteList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model, HttpServletRequest request) throws Exception {
+	public String selectSiteList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model,
+			HttpServletRequest request) throws Exception {
 
-		
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
@@ -102,21 +102,30 @@ public class EgovSiteController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		FileVO fileSearchVO = new FileVO(searchVO);
+		
 		List<?> siteList = siteService.selectSiteList(searchVO);
+		List<?> fileList = fileService.selectFileList(fileSearchVO);
+		
+		System.out.println(fileList.toString());
+		
 		model.addAttribute("resultList", siteList);
+		model.addAttribute("fileList", fileList);
 
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-		
+
 		return "site/egovSiteList";
 	}
+
 	@RequestMapping(value = "/egovSiteList/{userSeq}.do")
-	public String selectSiteListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO, ModelMap model) throws Exception {
+	public String selectSiteListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO,
+			ModelMap model) throws Exception {
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-		
+
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
@@ -128,17 +137,23 @@ public class EgovSiteController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
+		FileVO fileSearchVO = new FileVO(searchVO);
+		
 		List<?> siteList = siteService.selectSiteList(searchVO);
+		List<?> fileList = fileService.selectFileList(fileSearchVO);
 		model.addAttribute("resultList", siteList);
+		model.addAttribute("fileList", fileList);
 
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
-		
+
 		return "site/egovSiteList";
 	}
+
 	/**
 	 * 글 등록 화면을 조회한다.
+	 * 
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
 	 * @param model
 	 * @return "egovSampleRegister"
@@ -152,6 +167,7 @@ public class EgovSiteController {
 
 	/**
 	 * 글을 등록한다.
+	 * 
 	 * @param sampleVO - 등록할 정보가 담긴 VO
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
 	 * @param status
@@ -159,37 +175,49 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/addSite.do", method = RequestMethod.POST)
-	public String addSite(@ModelAttribute("siteWithFileVO") SiteWithFileVO vo, BindingResult bindingResult, Model model, SessionStatus status,HttpServletRequest request)
-			throws Exception {
-		
-		String path = "/scenario";
+	public String addSite(@ModelAttribute("siteWithFileVO") SiteWithFileVO vo, BindingResult bindingResult, Model model,
+			SessionStatus status, HttpServletRequest request) throws Exception {
+		String path = "./scenario";
 		String absolutePath = request.getServletContext().getRealPath(path);
 		Path paths = Paths.get(absolutePath);
-		
-		if(vo.getFile() !=null) {
+		File directory = new File(absolutePath);
+
+		System.out.println("directory is exist" + Files.exists(paths));
+
+		if (!Files.exists(paths)) {
+			directory.mkdir();
+			System.out.println("make folder");
+		}
+
+		if (vo.getFile() != null) {
 			siteService.insertSite(vo);
-			
+
 			System.out.println(absolutePath);
-			
-			File file = new File(absolutePath,vo.getFile().getOriginalFilename());
-			if(file.exists()) {
+
+			File file = new File(absolutePath, vo.getFile().getOriginalFilename());
+
+			System.out.println();
+
+			if (file.exists()) {
+				System.out.println("file is exist");
 				file.delete();
 			}
-			vo.getFile().transferTo(new File(absolutePath,vo.getFile().getOriginalFilename()));
-			
+
+			vo.getFile().transferTo(new File(absolutePath, vo.getFile().getOriginalFilename()));
+
 			FileVO fileVO = new FileVO();
 			fileVO.setName(vo.getFile().getOriginalFilename());
-			
+			fileVO.setUrl(absolutePath + "\\" + fileVO.getName());
 			fileService.insertFile(fileVO);
 		}
-		
-		
+
 		return "forward:/egovSiteList.do";
 	}
 
 	/**
 	 * 글 수정화면을 조회한다.
-	 * @param id - 수정할 글 id
+	 * 
+	 * @param id       - 수정할 글 id
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
 	 * @param model
 	 * @return "egovSampleRegister"
@@ -206,6 +234,7 @@ public class EgovSiteController {
 
 	/**
 	 * 글을 조회한다.
+	 * 
 	 * @param sampleVO - 조회할 정보가 담긴 VO
 	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
 	 * @param status
@@ -249,7 +278,8 @@ public class EgovSiteController {
 //	 * @exception Exception
 //	 */
 	@RequestMapping("/deleteSite/{seq}.do")
-	public String deleteSite(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status) throws Exception {
+	public String deleteSite(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status)
+			throws Exception {
 		siteVO.setSeq(seq);
 		siteService.deleteSite(siteVO);
 

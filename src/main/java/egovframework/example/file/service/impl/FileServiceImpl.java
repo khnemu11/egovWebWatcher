@@ -15,6 +15,7 @@
  */
 package egovframework.example.file.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -79,6 +80,11 @@ public class FileServiceImpl extends CommonServiceImpl implements FileService {
 	public FileVO selectFile(FileVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public List<FileVO> selectFileList(FileVO vo) throws Exception {
+		// TODO Auto-generated method stub
+		return fileDAO.selectFileList(vo);
 	}
 
 }

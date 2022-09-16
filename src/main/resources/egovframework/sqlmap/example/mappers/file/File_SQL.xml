@@ -38,4 +38,33 @@
 		FROM SAMPLE
 		WHERE ID=#{id}
 	</select>
+	
+	<select id="selectFileList" parameterType="searchVO"
+		resultType="egovMap">
+		SELECT
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<choose>
+				<when test="searchCondition == 0">
+					AND URL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchCondition == 1">
+					AND URL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+		<if test="userSeq != null and userSeq != 0">
+			<choose>
+				<when test="searchCondition == 0">
+					AND USER_SEQ = #{userSeq}
+				</when>
+			</choose>
+		</if>
+		ORDER BY SEQ ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
 </mapper>

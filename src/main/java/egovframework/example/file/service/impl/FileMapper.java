@@ -15,7 +15,7 @@
  */
 package egovframework.example.file.service.impl;
 
-import java.util.Map;
+import java.util.List;
 
 import egovframework.example.file.service.FileVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
@@ -69,4 +69,7 @@ public interface FileMapper {
 	 * @exception Exception
 	 */
 	FileVO selectFile(FileVO vo) throws Exception;
+	
+
+	List<FileVO> selectFileList(FileVO vo) throws Exception;
 }

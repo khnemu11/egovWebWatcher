@@ -15,7 +15,7 @@
  */
 package egovframework.example.file.service;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @Class Name : EgovSampleService.java
@@ -69,6 +69,9 @@ public interface FileService {
 	 * @exception Exception
 	 */
 	FileVO selectFile(FileVO vo) throws Exception;
+	
+	
+	List<FileVO> selectFileList(FileVO vo) throws Exception;
 	/**
 	 * 글 목록을 조회한다.
 	 * 

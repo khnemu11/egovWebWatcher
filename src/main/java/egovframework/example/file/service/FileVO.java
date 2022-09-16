@@ -15,11 +15,10 @@ site.url * Copyright 2008-2009 the original author or authors.
  */
 package egovframework.example.file.service;
 
-import java.io.InputStream;
 import java.io.Serializable;
-import java.sql.Blob;
 
 import egovframework.example.cmmn.CommonVO;
+import egovframework.example.site.service.SiteVO;
 
 /**
  * @Class Name : SampleDefaultVO.java
@@ -35,15 +34,32 @@ import egovframework.example.cmmn.CommonVO;
  *
  *      Copyright (C) by MOPAS All right reserved.
  */
-public class FileVO extends CommonVO implements Serializable{
+public class FileVO extends CommonVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String url;
+	private int userSeq;
 	
-	@Override
-	public String toString() {
-		return "FileVO [name=" + name + ", url=" + url + "]";
+	public FileVO() {
+		
+	}
+	
+	public FileVO(SiteVO searchVO) {
+		this.setPageUnit(searchVO.getPageUnit());  
+		this.setPageSize(searchVO.getPageSize());
+		this.setFirstIndex(searchVO.getFirstIndex());
+		this.setLastIndex(searchVO.getLastIndex());
+		this.setRecordCountPerPage(searchVO.getRecordCountPerPage());
+		this.setUserSeq(searchVO.getUserSeq());
+	}
+
+	public int getUserSeq() {
+		return userSeq;
+	}
+
+	public void setUserSeq(int userSeq) {
+		this.userSeq = userSeq;
 	}
 
 	public String getName() {
@@ -62,4 +78,8 @@ public class FileVO extends CommonVO implements Serializable{
 		this.url = url;
 	}
 
+	@Override
+	public String toString() {
+		return "FileVO [name=" + name + ", url=" + url + "]";
+	}
 }

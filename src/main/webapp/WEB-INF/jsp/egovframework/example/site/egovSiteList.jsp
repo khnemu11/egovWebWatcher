@@ -111,10 +111,12 @@
 								<col width="40" />
 								<col width="40" />
 								<col width="40" />
+								<col width="40" />
 							</colgroup>
 							<tr>
 								<th align="center">No</th>
 								<th align="center">URL</th>
+								<th align="center">File</th>
 								<th align="center">Action</th>
 							</tr>
 							<c:forEach var="result" items="${resultList}" varStatus="status">
@@ -127,12 +129,16 @@
 											value="${result.id}" /></a></td> --%>
 									<td align="center" class="listtd"><c:out
 											value="${status.count}" />&nbsp;</td>
-								<%-- 	<td align="center" class="listtd"><c:out
+									<%-- 	<td align="center" class="listtd"><c:out
 											value="${result.seq}" />&nbsp;</td> --%>
+
 									<td align="center" class="listtd"><c:out
 											value="${result.url}" />&nbsp;</td>
-											<td align="center" class="listtd"><c:out
-											value=""/><a href="javascript:void(0)" onclick="fn_egov_delete(${result.seq})">delete&nbsp;</a></td>
+									<td align="center" class="listtd"><c:out
+											value="${fileList[status.index].name}" />&nbsp;</td>
+									<td align="center" class="listtd"><c:out value="" /><a
+										href="javascript:void(0)"
+										onclick="fn_egov_delete(${result.seq})">delete&nbsp;</a></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -146,8 +152,7 @@
 
 					<div id="sysbtn">
 						<ul>
-							<li><span class="btn_blue_l"> <a
-									href="./addSite.do"><spring:message
+							<li><span class="btn_blue_l"> <a href="./addSite.do"><spring:message
 											code="button.create" /></a> <img
 									src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 									style="margin-left: 6px;" alt="" />
