@@ -17,6 +17,8 @@ package egovframework.example.file.service;
 
 import java.util.List;
 
+import egovframework.example.cmmn.CommonVO;
+
 /**
  * @Class Name : EgovSampleService.java
  * @Description : EgovSampleService Class
@@ -79,4 +81,8 @@ public interface FileService {
 	 * @return 글 목록
 	 * @exception Exception
 	 */
+
+	FileVO selectFileByName(FileVO fileVO) throws Exception;
+	
+	int selectFileByNameCnt(FileVO fileVO) throws Exception;
 }

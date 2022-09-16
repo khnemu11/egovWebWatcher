@@ -15,7 +15,9 @@
  */
 package egovframework.example.site.web;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +25,13 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +45,6 @@ import egovframework.example.file.service.FileVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
-import egovframework.example.site.service.SiteWithFileVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -103,12 +107,11 @@ public class EgovSiteController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		FileVO fileSearchVO = new FileVO(searchVO);
-		
+
 		List<?> siteList = siteService.selectSiteList(searchVO);
 		List<?> fileList = fileService.selectFileList(fileSearchVO);
-		
-		System.out.println(fileList.toString());
-		
+
+
 		model.addAttribute("resultList", siteList);
 		model.addAttribute("fileList", fileList);
 
@@ -138,7 +141,7 @@ public class EgovSiteController {
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
 		FileVO fileSearchVO = new FileVO(searchVO);
-		
+
 		List<?> siteList = siteService.selectSiteList(searchVO);
 		List<?> fileList = fileService.selectFileList(fileSearchVO);
 		model.addAttribute("resultList", siteList);
@@ -159,9 +162,11 @@ public class EgovSiteController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addSite.do", method = RequestMethod.GET)
-	public String addSiteView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("siteWithFileVO", new SiteWithFileVO());
+	@RequestMapping(value = "/addSiteForm.do", method = RequestMethod.GET)
+	public String addSiteView(@ModelAttribute("searchVO") SampleDefaultVO searchVO,@ModelAttribute("fileDuplicate") String fileDuplicate,  Model model) throws Exception {
+		System.out.println("add form start");
+		model.addAttribute("siteVO", new SiteVO());
+		model.addAttribute("fileDuplicate", "true");
 		return "site/egovSiteRegister";
 	}
 
@@ -175,8 +180,16 @@ public class EgovSiteController {
 	 * @exception Exception
 	 */
 	@RequestMapping(value = "/addSite.do", method = RequestMethod.POST)
-	public String addSite(@ModelAttribute("siteWithFileVO") SiteWithFileVO vo, BindingResult bindingResult, Model model,
+	public String addSite(@ModelAttribute("siteVO") SiteVO vo, BindingResult bindingResult, Model model,
 			SessionStatus status, HttpServletRequest request) throws Exception {
+		beanValidator.validate(vo, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("siteVO", vo);
+			return "site/addSite.do";
+		}
+		
+		
 		String path = "./scenario";
 		String absolutePath = request.getServletContext().getRealPath(path);
 		Path paths = Paths.get(absolutePath);
@@ -190,10 +203,19 @@ public class EgovSiteController {
 		}
 
 		if (vo.getFile() != null) {
-			siteService.insertSite(vo);
-
 			System.out.println(absolutePath);
-
+			
+			FileVO searchVO = new FileVO();
+			searchVO.setName(vo.getFile().getOriginalFilename());
+			
+			int count = fileService.selectFileByNameCnt(searchVO);
+			if(count>1) {
+				model.addAttribute("siteVO", vo);
+				model.addAttribute("fileDuplicate", "true");
+				System.out.println("duplicate file");
+				return "redirect:/addSiteForm.do";
+			}
+			
 			File file = new File(absolutePath, vo.getFile().getOriginalFilename());
 
 			System.out.println();
@@ -209,9 +231,13 @@ public class EgovSiteController {
 			fileVO.setName(vo.getFile().getOriginalFilename());
 			fileVO.setUrl(absolutePath + "\\" + fileVO.getName());
 			fileService.insertFile(fileVO);
+			
+			int fileSeq = fileService.selectFileByName(fileVO).getSeq();
+			vo.setFileSeq(fileSeq);
+			siteService.insertSite(vo);
 		}
 
-		return "forward:/egovSiteList.do";
+		return "redirect:/egovSiteList.do";
 	}
 
 	/**
@@ -286,4 +312,28 @@ public class EgovSiteController {
 		return "redirect:/egovSiteList.do";
 	}
 
+	@RequestMapping(value = "/attach/{seq}.do", method = RequestMethod.GET)
+	public String downloadAttach(@PathVariable int seq, HttpServletResponse response) throws Exception {
+		System.out.println("download is start");
+
+		FileVO searchVO = new FileVO();
+		searchVO.setSeq(seq);
+
+		FileVO file = fileService.selectFile(searchVO);
+
+		File down = new File(file.getUrl(), file.getName());
+
+		String encodedName = new String(file.getName().getBytes("UTF-8"), "iso-8859-1");
+
+		response.setContentType("application/octet-stream");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
+
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(down));
+		FileCopyUtils.copy(in, response.getOutputStream());
+		in.close();
+		response.getOutputStream().flush();
+		response.getOutputStream().close();
+
+		return "redirect:/egovSiteList.do";
+	}
 }

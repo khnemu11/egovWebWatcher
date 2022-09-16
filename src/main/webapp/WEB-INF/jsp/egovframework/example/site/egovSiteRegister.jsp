@@ -26,6 +26,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <c:set var="registerFlag"
 	value="${empty siteVO.url ? 'create' : 'modify'}" />
+	<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
 <title>Sample <c:if test="${registerFlag == 'create'}">
 		<spring:message code="button.create" />
 	</c:if> <c:if test="${registerFlag == 'modify'}">
@@ -35,12 +36,22 @@
 <link type="text/css" rel="stylesheet"
 	href="<c:url value='/css/egovframework/sample.css'/>" />
 <!--For Commons Validator Client Side-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-<validator:javascript formName="siteWithFileVO" staticJavascript="false"
+<validator:javascript formName="siteVO" staticJavascript="false"
 	xhtml="true" cdata="false" />
 
 <script type="text/javaScript" language="javascript" defer="defer">
         /* 글 목록 화면 function */
+        $(document).ready(function(){
+        		var text = '${error == 'error' ? "error" :"none"}';
+        		console.log(text);
+        		if(text == "error"){
+        			alert("중복된 파일 이름이 존재합니다.");
+        		}
+        });
+        	
+       
         document.addEventListener('keydown', function(event) {
 			if (event.keyCode === 13) {
 			event.preventDefault();
@@ -61,7 +72,7 @@
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;
-        	if(!validateSiteWithFileVO(frm)){
+        	if(!validateSiteVO(frm)){
                 return;
             }else{
             	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSite.do' : '/updateSite.do'}"/>";
@@ -74,7 +85,7 @@
 <body
 	style="text-align: center; margin: 0 auto; display: inline; padding-top: 100px;">
 
-	<form:form commandName="siteWithFileVO" id="detailForm" name="detailForm"  enctype="multipart/form-data">
+	<form:form commandName="siteVO" id="detailForm" name="detailForm"  enctype="multipart/form-data">
 		<div id="content_pop">
 			<!-- 타이틀 -->
 			<div id="title">

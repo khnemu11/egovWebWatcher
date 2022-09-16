@@ -52,7 +52,7 @@
         	if(!validateSampleVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value='/addSite.do'/>";
+            	frm.action = "<c:url value='/addSiteForm.do'/>";
                 frm.submit();
             }
         }
@@ -134,8 +134,8 @@
 
 									<td align="center" class="listtd"><c:out
 											value="${result.url}" />&nbsp;</td>
-									<td align="center" class="listtd"><c:out
-											value="${fileList[status.index].name}" />&nbsp;</td>
+									<td align="center" class="listtd"><a href="./attach/${fileList[status.index].seq}.do"><c:out
+											value="${fileList[status.index].name}" /></a>&nbsp;</td>
 									<td align="center" class="listtd"><c:out value="" /><a
 										href="javascript:void(0)"
 										onclick="fn_egov_delete(${result.seq})">delete&nbsp;</a></td>
@@ -152,7 +152,7 @@
 
 					<div id="sysbtn">
 						<ul>
-							<li><span class="btn_blue_l"> <a href="./addSite.do"><spring:message
+							<li><span class="btn_blue_l"> <a href="./addSiteForm.do"><spring:message
 											code="button.create" /></a> <img
 									src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 									style="margin-left: 6px;" alt="" />

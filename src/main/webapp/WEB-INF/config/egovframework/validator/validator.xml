@@ -19,12 +19,11 @@
 		</form>
 	</formset>
 	<formset>
-		<form name="siteWithFileVO">
+		<form name="siteVO">
 			<field property="url" depends="required">
 				<arg0 key="site.url" />
 			</field>
 			<field property="file" depends="required">
-				<arg0 key="site.file" />
 			</field>
 		</form>
 	</formset>

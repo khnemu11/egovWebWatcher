@@ -15,7 +15,7 @@
  */
 package egovframework.example.site.service;
 
-import com.mysql.cj.jdbc.Blob;
+import egovframework.example.file.service.FileVO;
 
 /**
  * @Class Name : SampleVO.java
@@ -35,29 +35,47 @@ public class SiteWithFileVO extends SiteVO {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private String name;
-	private Blob binary;
+	private static final long serialVersionUID = -8024452759500148006L;
+	/**
+	 * 
+	 */
+	private SiteVO siteVO;
+	private FileVO fileVO;
 
-	public String getName() {
-		return name;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public SiteVO getSiteVO() {
+		return siteVO;
 	}
 
-	public Blob getBinary() {
-		return binary;
+	public void setSiteVO(SiteVO siteVO) {
+		this.siteVO = siteVO;
 	}
 
-	public void setBinary(Blob binary) {
-		this.binary = binary;
+	public FileVO getFileVO() {
+		return fileVO;
+	}
+
+	public void setFileVO(FileVO fileVO) {
+		this.fileVO = fileVO;
 	}
 
 	@Override
 	public String toString() {
-		return "SiteWithFileVO [name=" + name + ", binary=" + binary + "]";
+		return "SiteWithFileVO [siteVO=" + siteVO + ", fileVO=" + fileVO + ", getSiteVO()=" + getSiteVO()
+				+ ", getFileVO()=" + getFileVO() + ", getUserSeq()=" + getUserSeq() + ", getUrl()=" + getUrl()
+				+ ", getScenarioId()=" + getScenarioId() + ", getVersion()=" + getVersion() + ", getFile()=" + getFile()
+				+ ", getFileSeq()=" + getFileSeq() + ", getSeq()=" + getSeq() + ", getCdate()=" + getCdate()
+				+ ", getCtime()=" + getCtime() + ", getUdate()=" + getUdate() + ", getUtime()=" + getUtime()
+				+ ", getDdate()=" + getDdate() + ", getDtime()=" + getDtime() + ", toString()=" + super.toString()
+				+ ", getFirstIndex()=" + getFirstIndex() + ", getLastIndex()=" + getLastIndex()
+				+ ", getRecordCountPerPage()=" + getRecordCountPerPage() + ", getSearchCondition()="
+				+ getSearchCondition() + ", getSearchKeyword()=" + getSearchKeyword() + ", getSearchUseYn()="
+				+ getSearchUseYn() + ", getPageIndex()=" + getPageIndex() + ", getPageUnit()=" + getPageUnit()
+				+ ", getPageSize()=" + getPageSize() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ "]";
 	}
 
 }

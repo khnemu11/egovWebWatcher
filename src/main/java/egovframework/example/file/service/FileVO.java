@@ -80,6 +80,8 @@ public class FileVO extends CommonVO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FileVO [name=" + name + ", url=" + url + "]";
+		return "FileVO [name=" + name + ", url=" + url + ", userSeq=" + userSeq + ", seq = "+super.getSeq()+" ]";
 	}
+
+	
 }

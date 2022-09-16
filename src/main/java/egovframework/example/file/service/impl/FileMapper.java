@@ -72,4 +72,8 @@ public interface FileMapper {
 	
 
 	List<FileVO> selectFileList(FileVO vo) throws Exception;
+
+	FileVO selectFileByName(FileVO fileVO) throws Exception;
+	
+	int selectFileByNameCnt(FileVO fileVO) throws Exception;
 }

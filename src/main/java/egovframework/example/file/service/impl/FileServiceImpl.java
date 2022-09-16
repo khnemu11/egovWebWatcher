@@ -79,12 +79,22 @@ public class FileServiceImpl extends CommonServiceImpl implements FileService {
 	@Override
 	public FileVO selectFile(FileVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return fileDAO.selectFile(vo);
 	}
 	@Override
 	public List<FileVO> selectFileList(FileVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		return fileDAO.selectFileList(vo);
+	}
+	@Override
+	public FileVO selectFileByName(FileVO fileVO) throws Exception {
+		// TODO Auto-generated method stub
+		return fileDAO.selectFileByName(fileVO);
+	}
+	@Override
+	public int selectFileByNameCnt(FileVO fileVO) throws Exception {
+		System.out.println("start selectFileByNameCnt : sql");
+		return fileDAO.selectFileByNameCnt(fileVO);
 	}
 
 }

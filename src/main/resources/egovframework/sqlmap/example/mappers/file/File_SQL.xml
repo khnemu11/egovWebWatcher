@@ -31,14 +31,29 @@
 		WHERE seq=#{seq}
 	</delete>
 
-	<select id="selectFile" resultType="fileVO">
+	<select id="selectFile" parameterType="fileVO" resultType="fileVO">
 		SELECT
-		ID, NAME, DESCRIPTION,
-		USE_YN, REG_USER
-		FROM SAMPLE
-		WHERE ID=#{id}
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0 AND SEQ = #{seq}
 	</select>
-	
+	<select id="selectFileByName" parameterType="fileVO" resultType="fileVO">
+		SELECT
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0 AND NAME = #{name}
+	</select>
+	<select id="selectFileByNameCnt" parameterType="fileVO" resultType="Integer">
+		SELECT
+			count(*)
+		FROM SCENARIO
+		WHERE 
+			DDATE =0 AND DTIME=0 AND NAME = #{name}
+	</select>
 	<select id="selectFileList" parameterType="searchVO"
 		resultType="egovMap">
 		SELECT

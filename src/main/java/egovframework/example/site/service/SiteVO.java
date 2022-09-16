@@ -36,12 +36,12 @@ import egovframework.example.cmmn.CommonVO;
 public class SiteVO extends CommonVO {
 
 	private static final long serialVersionUID = 1L;
-
 	private int userSeq;
 	private String url;
 	private int scenarioId;
 	private int version;
 	private MultipartFile file;
+	private int fileSeq;
 
 	public int getUserSeq() {
 		return userSeq;
@@ -85,6 +85,14 @@ public class SiteVO extends CommonVO {
 
 	public void setFile(MultipartFile file) {
 		this.file = file;
+	}
+
+	public int getFileSeq() {
+		return fileSeq;
+	}
+
+	public void setFileSeq(int fileSeq) {
+		this.fileSeq = fileSeq;
 	}
 
 }
