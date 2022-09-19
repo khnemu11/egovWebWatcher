@@ -2,7 +2,8 @@ package egovframework.example.login.service.impl;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
 import egovframework.example.cmmn.CommonServiceImpl;
@@ -11,28 +12,28 @@ import egovframework.example.login.service.LoginVO;
 
 @Service("loginService")
 public class LoginServiceImpl extends CommonServiceImpl implements LoginService {
-	@Autowired
-	LoginDAO dao;
+	@Resource(name = "loginMapper")
+	private LoginMapper loginDAO;
 
 	@Override
-	public Long selectLoginSeq(LoginVO vo) throws Exception {
-		return dao.selectLoginSeq(vo);
+	public long selectLoginSeq(LoginVO vo) throws Exception {
+		return loginDAO.selectLoginSeq(vo);
 	}
 
 	@Override
 	public List<LoginVO> selectLogin(LoginVO vo) throws Exception {
-		return dao.selectLogin(vo);
+		return loginDAO.selectLogin(vo);
 	}
 
 	@Override
-	public Long selectLoginCheck(LoginVO vo) throws Exception {
-		return dao.selectLoginCheck(vo);
+	public long selectLoginCheck(LoginVO vo) throws Exception {
+		return loginDAO.selectLoginCheck(vo);
 	}
 
 	@Override
 	public int updateLoginFail(LoginVO vo) throws Exception {
-		return dao.updateLoginFail(vo);
+		return loginDAO.updateLoginFail(vo);
 	}
-	
-	
+
+
 }

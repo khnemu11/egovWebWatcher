@@ -1,9 +1,10 @@
 package egovframework.example.login.service;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class LoginVO implements Serializable {
+import egovframework.example.cmmn.CommonVO;
+
+public class LoginVO extends CommonVO  {
     /**
 	 * 
 	 */
