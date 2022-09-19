@@ -1,0 +1,71 @@
+.container-login{
+  margin: 100px auto 100px;
+}
+
+.content-title{
+	text-align: center;
+  font-family: "Poppins", sans-serif;
+  padding-bottom:40px;
+	font-size:30px;
+}
+
+.textfield{
+  width:100%;
+  padding: 15px 0;
+}
+
+.sign-up{
+  text-align:center;
+  margin-top: 10px;
+  padding: 10px 15px;
+}
+.forgot-password{
+  text-align: center;
+  padding: 10px 15px
+}
+
+#title{
+	text-align: center;
+}
+
+#row-login{
+	text-align:center;
+}
+
+#sign-up-button{
+  padding: 10px 15px;
+  text-decoration : none;
+  color:#000000;
+}
+
+#login-button
+{
+  width:100%;
+  margin-top: 10px;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#opt,#opt-forget{
+	line-height:17px;
+}
+#opt-forget{
+	text-decoration: underline;
+}
+
+@media (min-width: 760px){
+  .container-login{
+    max-width: 1200px;
+  }
+}
+@media (max-width: 540px) {
+  .container-login{
+    margin: 0px;
+  }
+  .content-title{
+    padding-bottom: 0px;
+  }
+	#login-form {
+		padding: 0 20px;
+	}
+}
