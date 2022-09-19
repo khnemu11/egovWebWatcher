@@ -31,19 +31,22 @@
 	</update>
 
 	<delete id="deleteSite">
-		UPDATE SITE
-		SET DDATE=#{ddate},
-		DTIME=#{dtime},
-		VERSION = VERSION+1
-		WHERE seq=#{seq}
+		UPDATE SITE,SCENARIO
+		SET 
+			SITE.DDATE=#{ddate},
+			SITE.DTIME=#{dtime},
+			SCENARIO.DDATE=#{ddate},
+			SCENARIO.DTIME=#{dtime},
+			SITE.VERSION = SITE.VERSION+1,
+			SCENARIO.VERSION = SCENARIO.VERSION+1
+		WHERE SITE.seq=#{siteSeq} and SCENARIO.seq =#{fileSeq}
 	</delete>
 
-	<select id="selectSite" resultMap="sample">
+	<select id="selectSite" parameterType = "siteWithFileVO" resultType="siteWithFileVO">
 		SELECT
-		ID, NAME, DESCRIPTION,
-		USE_YN, REG_USER
-		FROM SAMPLE
-		WHERE ID=#{id}
+			seq as siteSeq, file_seq as fileSeq, user_seq as userSeq
+		FROM SITE
+			WHERE seq=#{siteSeq}
 
 	</select>
 
@@ -75,7 +78,19 @@
 		ORDER BY SEQ ASC
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
-
+	<select id="selectSiteWithFileList" parameterType="siteWithFileVO"
+		resultType="egovMap">
+		SELECT
+			site.seq as siteSeq, scenario.seq as fileSeq, site.url as siteUrl, scenario.url as fileUrl
+		FROM 
+			SCENARIO, SITE
+		where 
+			site.file_seq = scenario.seq AND site.DDATE = 0 AND site.DTIME=0
+			AND scenario.DDATE = 0 AND scenario.DTIME=0 AND site.user_seq=#{searchKeyword}
+		
+		ORDER BY site.SEQ ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
 	<select id="selectSiteListTotCnt" parameterType="searchVO"
 		resultType="int">
 

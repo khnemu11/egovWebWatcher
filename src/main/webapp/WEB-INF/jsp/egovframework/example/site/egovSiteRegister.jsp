@@ -163,13 +163,13 @@
 				</ul>
 			</div>
 		</div>
-		<!-- 검색조건 유지 -->
+<%-- 		<!-- 검색조건 유지 -->
 		<input type="hidden" name="searchCondition"
 			value="<c:out value='${searchVO.searchCondition}'/>" />
 		<input type="hidden" name="searchKeyword"
 			value="<c:out value='${searchVO.searchKeyword}'/>" />
 		<input type="hidden" name="pageIndex"
-			value="<c:out value='${searchVO.pageIndex}'/>" />
+			value="<c:out value='${searchVO.pageIndex}'/>" /> --%>
 	</form:form>
 </body>
 </html>

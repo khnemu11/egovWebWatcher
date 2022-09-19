@@ -40,7 +40,7 @@
         /* 글 삭제 function */
         function fn_egov_delete(seq) {
         	if(confirm("정말로 삭제하시겠습니까?")){
-        		var url = "./deleteSite/";
+        		var url = "../deleteSite/";
         		url= url+ seq;
         		url=url+".do";
         		location.href = url;
@@ -133,12 +133,12 @@
 											value="${result.seq}" />&nbsp;</td> --%>
 
 									<td align="center" class="listtd"><c:out
-											value="${result.url}" />&nbsp;</td>
-									<td align="center" class="listtd"><a href="./attach/${fileList[status.index].seq}.do"><c:out
-											value="${fileList[status.index].name}" /></a>&nbsp;</td>
+											value="${result.siteUrl}" />&nbsp;</td>
+									<td align="center" class="listtd"><a href="./attach/${result.fileSeq}.do"><c:out
+											value="${result.fileUrl}" /></a>&nbsp;</td>
 									<td align="center" class="listtd"><c:out value="" /><a
 										href="javascript:void(0)"
-										onclick="fn_egov_delete(${result.seq})">delete&nbsp;</a></td>
+										onclick="fn_egov_delete(${result.siteSeq})">delete&nbsp;</a></td>
 								</tr>
 							</c:forEach>
 						</table>

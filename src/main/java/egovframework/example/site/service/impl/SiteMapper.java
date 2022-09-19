@@ -19,6 +19,7 @@ import java.util.List;
 
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.site.service.SiteVO;
+import egovframework.example.site.service.SiteWithFileVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 /**
@@ -61,7 +62,7 @@ public interface SiteMapper {
 	 * @return void형
 	 * @exception Exception
 	 */
-	void deleteSite(SiteVO vo) throws Exception;
+	void deleteSite(SiteWithFileVO vo) throws Exception;
 
 	/**
 	 * 글을 조회한다.
@@ -69,7 +70,7 @@ public interface SiteMapper {
 	 * @return 조회한 글
 	 * @exception Exception
 	 */
-	SiteVO selectSite(SiteVO vo) throws Exception;
+	SiteWithFileVO selectSite(SiteWithFileVO vo) throws Exception;
 
 	/**
 	 * 글 목록을 조회한다.
@@ -85,6 +86,6 @@ public interface SiteMapper {
 	 * @return 글 총 갯수
 	 * @exception
 	 */
-	int selectSiteListTotCnt(SampleDefaultVO searchVO);
-
+	int selectSiteListTotCnt(SiteWithFileVO searchVO);
+	List<?> selectSiteWithFileList(SiteWithFileVO siteWithFileVO);
 }

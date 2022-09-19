@@ -57,7 +57,7 @@ public interface EgovSiteService {
 	 * @return void형
 	 * @exception Exception
 	 */
-	void deleteSite(SiteVO vo) throws Exception;
+	void deleteSite(SiteWithFileVO vo) throws Exception;
 
 	/**
 	 * 글을 조회한다.
@@ -65,7 +65,7 @@ public interface EgovSiteService {
 	 * @return 조회한 글
 	 * @exception Exception
 	 */
-	SiteVO selectSite(SiteVO vo) throws Exception;
+	SiteWithFileVO selectSite(SiteWithFileVO vo) throws Exception;
 
 	/**
 	 * 글 목록을 조회한다.
@@ -81,6 +81,7 @@ public interface EgovSiteService {
 	 * @return 글 총 갯수
 	 * @exception
 	 */
-	int selectSiteListTotCnt(SiteVO searchVO);
+	int selectSiteListTotCnt(SiteWithFileVO searchVO);
+	List<?> selectSiteWithFileList(SiteWithFileVO siteWithFileVO);
 
 }

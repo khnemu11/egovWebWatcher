@@ -13,7 +13,6 @@ public class FileFieldCheck extends FieldChecks{
         Field field, Errors errors){
 //		String ihidnum = FieldChecks.extractValue(bean, field); //		bean에서 해당 field 값을 추 
 		String filename = ((SiteVO)bean).getFile().getOriginalFilename(); //위와 동일한 코드이나 multipartfile 타입은  객체(collections)타입이라서 property(단순 필드)일때만 extractValue로 객체의 필드값을  추출 불가하여 bean에서 직접 가져오는 코드
-		System.out.println(field.toString());
 
 		if(!FileValidator.isValidFileName(filename)){ //이미 등록된 파일이름이라면
 			FieldChecks.rejectValue(errors, field, va); //에러 처리

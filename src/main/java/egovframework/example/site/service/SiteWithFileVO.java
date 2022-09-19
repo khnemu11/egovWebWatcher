@@ -15,6 +15,7 @@
  */
 package egovframework.example.site.service;
 
+import egovframework.example.cmmn.CommonVO;
 import egovframework.example.file.service.FileVO;
 
 /**
@@ -31,51 +32,59 @@ import egovframework.example.file.service.FileVO;
  *
  *      Copyright (C) by MOPAS All right reserved.
  */
-public class SiteWithFileVO extends SiteVO {
+public class SiteWithFileVO extends CommonVO{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8024452759500148006L;
+	private static long serialVersionUID = -8024452759500148006L;
 	/**
 	 * 
 	 */
-	private SiteVO siteVO;
-	private FileVO fileVO;
-
+	private int siteSeq;
+	private int fileSeq;
+	private String siteUrl;
+	private String fileUrl;
+	private int userSeq;
+	
+	public int getUserSeq() {
+		return userSeq;
+	}
+	public void setUserSeq(int userSeq) {
+		this.userSeq = userSeq;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public SiteVO getSiteVO() {
-		return siteVO;
+	public static void setSerialversionuid(long serialversionuid) {
+		serialVersionUID = serialversionuid;
 	}
-
-	public void setSiteVO(SiteVO siteVO) {
-		this.siteVO = siteVO;
+	public int getSiteseq() {
+		return siteSeq;
 	}
-
-	public FileVO getFileVO() {
-		return fileVO;
+	public void setSiteseq(int siteseq) {
+		this.siteSeq = siteseq;
 	}
-
-	public void setFileVO(FileVO fileVO) {
-		this.fileVO = fileVO;
+	public int getFileSeq() {
+		return fileSeq;
 	}
-
+	public void setFileSeq(int fileSeq) {
+		this.fileSeq = fileSeq;
+	}
+	public String getFileUrl() {
+		return fileUrl;
+	}
+	public void setFileUrl(String fileUrl) {
+		this.fileUrl = fileUrl;
+	}
+	public String getSiteUrl() {
+		return siteUrl;
+	}
+	public void setSiteUrl(String siteUrl) {
+		this.siteUrl = siteUrl;
+	}
 	@Override
 	public String toString() {
-		return "SiteWithFileVO [siteVO=" + siteVO + ", fileVO=" + fileVO + ", getSiteVO()=" + getSiteVO()
-				+ ", getFileVO()=" + getFileVO() + ", getUserSeq()=" + getUserSeq() + ", getUrl()=" + getUrl()
-				+ ", getScenarioId()=" + getScenarioId() + ", getVersion()=" + getVersion() + ", getFile()=" + getFile()
-				+ ", getFileSeq()=" + getFileSeq() + ", getSeq()=" + getSeq() + ", getCdate()=" + getCdate()
-				+ ", getCtime()=" + getCtime() + ", getUdate()=" + getUdate() + ", getUtime()=" + getUtime()
-				+ ", getDdate()=" + getDdate() + ", getDtime()=" + getDtime() + ", toString()=" + super.toString()
-				+ ", getFirstIndex()=" + getFirstIndex() + ", getLastIndex()=" + getLastIndex()
-				+ ", getRecordCountPerPage()=" + getRecordCountPerPage() + ", getSearchCondition()="
-				+ getSearchCondition() + ", getSearchKeyword()=" + getSearchKeyword() + ", getSearchUseYn()="
-				+ getSearchUseYn() + ", getPageIndex()=" + getPageIndex() + ", getPageUnit()=" + getPageUnit()
-				+ ", getPageSize()=" + getPageSize() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ "]";
+		return "SiteWithFileVO [siteseq=" + siteSeq + ", fileSeq=" + fileSeq + ", siteUrl=" + siteUrl + ", fileUrl="
+				+ fileUrl + ", userSeq=" + userSeq + "]";
 	}
-
 }

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import egovframework.example.cmmn.CommonServiceImpl;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
+import egovframework.example.site.service.SiteWithFileVO;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
 /**
@@ -132,7 +133,7 @@ public class EgovSiteServiceImpl extends CommonServiceImpl implements EgovSiteSe
 	 * 글 총 갯수를 조회한다. @param searchVO - 조회할 정보가 담긴 VO @return 글 총 갯수 @exception
 	 */
 	@Override
-	public int selectSiteListTotCnt(SiteVO searchVO) {
+	public int selectSiteListTotCnt(SiteWithFileVO searchVO) {
 		return siteDAO.selectSiteListTotCnt(searchVO);
 	}
 
@@ -150,16 +151,22 @@ public class EgovSiteServiceImpl extends CommonServiceImpl implements EgovSiteSe
 	}
 
 	@Override
-	public void deleteSite(SiteVO vo) throws Exception {
+	public void deleteSite(SiteWithFileVO vo) throws Exception {
 		// TODO Auto-generated method stub
 		setDelete(vo);
 		siteDAO.deleteSite(vo);
 	}
 
 	@Override
-	public SiteVO selectSite(SiteVO vo) throws Exception {
+	public SiteWithFileVO selectSite(SiteWithFileVO vo) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return siteDAO.selectSite(vo);
+	}
+
+	@Override
+	public List<?> selectSiteWithFileList(SiteWithFileVO siteWithFileVO) {
+		// TODO Auto-generated method stub
+		return siteDAO.selectSiteWithFileList(siteWithFileVO);
 	}
 
 }

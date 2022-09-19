@@ -50,6 +50,7 @@ import egovframework.example.file.service.FileService;
 import egovframework.example.file.service.FileVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
+import egovframework.example.site.service.SiteWithFileVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -94,64 +95,61 @@ public class EgovSiteController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/egovSiteList.do")
-	public String selectSiteList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model,
-			HttpServletRequest request) throws Exception {
-
-		/** EgovPropertyService.sample */
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
-		/** pageing setting */
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		FileVO fileSearchVO = new FileVO(searchVO);
-
-		List<?> siteList = siteService.selectSiteList(searchVO);
-		List<?> fileList = fileService.selectFileList(fileSearchVO);
-
-		model.addAttribute("resultList", siteList);
-		model.addAttribute("fileList", fileList);
-
-		int totCnt = siteService.selectSiteListTotCnt(searchVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
-
-		return "site/egovSiteList";
-	}
+//	@RequestMapping(value = "/egovSiteList.do")
+//	public String selectSiteList(@ModelAttribute("searchVO") SiteVO searchVO, ModelMap model,
+//			HttpServletRequest request) throws Exception {
+//
+//		/** EgovPropertyService.sample */
+//		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+//		searchVO.setPageSize(propertiesService.getInt("pageSize"));
+//
+//		/** pageing setting */
+//		PaginationInfo paginationInfo = new PaginationInfo();
+//		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+//		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+//		paginationInfo.setPageSize(searchVO.getPageSize());
+//
+//		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+//		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+//		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
+//
+//		FileVO fileSearchVO = new FileVO(searchVO);
+//
+//		List<?> siteList = siteService.selectSiteList(searchVO);
+//		List<?> fileList = fileService.selectFileList(fileSearchVO);
+//
+//		model.addAttribute("resultList", siteList);
+//		model.addAttribute("fileList", fileList);
+//
+//		int totCnt = siteService.selectSiteListTotCnt(searchVO);
+//		paginationInfo.setTotalRecordCount(totCnt);
+//		model.addAttribute("paginationInfo", paginationInfo);
+//
+//		return "site/egovSiteList";
+//	}
 
 	@RequestMapping(value = "/egovSiteList/{userSeq}.do")
-	public String selectSiteListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteVO searchVO,
+	public String selectSiteListBySeq(@PathVariable int userSeq, @ModelAttribute("searchVO") SiteWithFileVO searchVO,
 			ModelMap model) throws Exception {
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
+		searchVO.setSearchKeyword(String.valueOf(userSeq));
+		
 		/** pageing setting */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
 		paginationInfo.setPageSize(searchVO.getPageSize());
 
-		searchVO.setUserSeq(userSeq);
 		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		FileVO fileSearchVO = new FileVO(searchVO);
-
-		List<?> siteList = siteService.selectSiteList(searchVO);
-		List<?> fileList = fileService.selectFileList(fileSearchVO);
-		model.addAttribute("resultList", siteList);
-		model.addAttribute("fileList", fileList);
-
+		List<?> siteWithFile = siteService.selectSiteWithFileList(searchVO);
+		System.out.println(siteWithFile.toString());
+		model.addAttribute("resultList",siteWithFile);
+		
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
@@ -210,6 +208,7 @@ public class EgovSiteController {
 		beanValidator.validate(vo, bindingResult);
 
 		if (bindingResult.hasErrors()) {
+			log.info(bindingResult.toString());
 			log.info("ready for redirect add form");
 			log.info("name : "+vo.getFile().getOriginalFilename());
 			model.addAttribute("siteVO",vo);
@@ -233,14 +232,6 @@ public class EgovSiteController {
 
 			FileVO searchVO = new FileVO();
 			searchVO.setName(vo.getFile().getOriginalFilename());
-
-			int count = fileService.selectFileByNameCnt(searchVO);
-			if (count > 1) {
-				model.addAttribute("siteVO", vo);
-				model.addAttribute("fileDuplicate", "true");
-				System.out.println("duplicate file");
-				return "redirect:/addSiteForm.do";
-			}
 
 			File file = new File(absolutePath, vo.getFile().getOriginalFilename());
 
@@ -330,12 +321,14 @@ public class EgovSiteController {
 //	 * @exception Exception
 //	 */
 	@RequestMapping("/deleteSite/{seq}.do")
-	public String deleteSite(@PathVariable int seq, @ModelAttribute("searchVO") SiteVO siteVO, SessionStatus status)
+	public String deleteSite(@PathVariable int seq, @ModelAttribute("searchVO") SiteWithFileVO vo, SessionStatus status)
 			throws Exception {
-		siteVO.setSeq(seq);
-		siteService.deleteSite(siteVO);
+		vo.setSiteseq(seq);
+		SiteWithFileVO target = siteService.selectSite(vo);
+		log.info(target.toString());
+		siteService.deleteSite(target);
 
-		return "redirect:/egovSiteList.do";
+		return "redirect:/egovSiteList/"+target.getUserSeq()+".do";
 	}
 
 	@RequestMapping(value = "/attach/{seq}.do", method = RequestMethod.GET)
