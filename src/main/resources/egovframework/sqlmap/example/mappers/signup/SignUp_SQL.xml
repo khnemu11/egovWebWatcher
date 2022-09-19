@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Signup">
-	
+<mapper namespace="egovframework.example.signup.service.impl.SignupMapper">	
    	<select id="selectSignupEmail" resultType="long">
 	    select COUNT(*)
-    	FROM TUSER
+    	FROM USER
    		WHERE UPPER(email) like UPPER #{email}
 	</select>
 	<select id="selectUserEmail" resultType="long">
 	    select COUNT(*)
-    	FROM TUSER
+    	FROM USER
    		WHERE UPPER(email) like UPPER #{email}
 	</select>
 	<select id="selectUserLoginId" resultType="long">
 	    select COUNT(*)
-    	FROM TARCLOGIN
+    	FROM LOGIN
    		WHERE UPPER(login_Id) like UPPER #{loginId}
 	</select>
 	<select id="selectUserSeq" resultType="long">
 		select
 			MAX(SEQ)
 		from
-			TUSER
+			USER
 	</select>
 	<!--  -->
-	<insert id="insertTuser" parameterType="egovframework.example.signup.service.SignupVO">
-	 insert into TUSER
+	<insert id="insertTuser" parameterType="userVO">
+	 insert into USER
 				(
 				NAME
-				,COMPANY
+			    ,COMPANY
 				,TEL
 				,EMAIL
-				,LANGUAGE
-				,COMID
-				,UID
+ 				,LANGUAGE
 				,CDATE
 				,CTIME
 				,UDATE
@@ -42,27 +39,23 @@
 				values
 				(
 				#{name}
-				,#{company}
+ 				,#{company}
 				,#{tel}
 				,#{email}
 				,#{language}
-				,#{comid}
-				,#{uid}
 				,#{cdate}
 				,#{ctime}
 				,#{udate}
 				,#{utime}
 				)
 	</insert>
-	<insert id="insertTarclogin" parameterType="egovframework.example.signup.service.SignupVO">
-		insert into TARCLOGIN
+	<insert id="insertTarclogin" parameterType="userVO">
+		insert into LOGIN
 				(
 				LOGIN_ID
 				,PASSWORD
 				,DISPNAME
 				,USER_SEQ
-				,COMID
-				,UID
 				,CDATE
 				,CTIME
 				,UDATE
@@ -74,8 +67,6 @@
 				,#{password}
 				,#{dispName}
 				,#{seq}
-				,#{comid}
-				,#{uid}
 				,#{cdate}
 				,#{ctime}
 				,#{udate}
