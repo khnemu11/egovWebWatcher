@@ -1,8 +1,8 @@
 package egovframework.example.signup.service;
 
-import java.io.Serializable;
+import egovframework.example.cmmn.CommonVO;
 
-public class SignupVO implements Serializable {
+public class SignupVO extends CommonVO {
 	/**
 	 * 
 	 */
