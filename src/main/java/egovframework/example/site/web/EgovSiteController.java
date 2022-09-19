@@ -149,7 +149,7 @@ public class EgovSiteController {
 		List<?> siteWithFile = siteService.selectSiteWithFileList(searchVO);
 		System.out.println(siteWithFile.toString());
 		model.addAttribute("resultList",siteWithFile);
-		
+		model.addAttribute("userSeq",userSeq);
 		int totCnt = siteService.selectSiteListTotCnt(searchVO);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
@@ -182,11 +182,12 @@ public class EgovSiteController {
 		return "site/egovSiteRegister";
 	}
 	
-	@RequestMapping(value = "/addSiteForm.do", method = RequestMethod.GET)
-	public String addSiteView(@ModelAttribute("siteVO") SiteVO vo, Model model) throws Exception {
+	@RequestMapping(value = "/addSiteForm/{userSeq}.do", method = RequestMethod.GET)
+	public String addSiteView(@PathVariable int userSeq, @ModelAttribute("siteVO") SiteVO vo, Model model) throws Exception {
 		try {
 			log.info("add form start");
 			model.addAttribute("siteVO", vo);
+			model.addAttribute("userSeq", userSeq);
 		} catch (Exception e) {
 			log.info(e.getStackTrace());
 		}
@@ -202,8 +203,8 @@ public class EgovSiteController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addSite.do", method = RequestMethod.POST)
-	public String addSite(@ModelAttribute("siteVO") SiteVO vo, BindingResult bindingResult, Model model,
+	@RequestMapping(value = "/addSite/{userSeq}.do", method = RequestMethod.POST)
+	public String addSite(@PathVariable int userSeq, @ModelAttribute("siteVO") SiteVO vo, BindingResult bindingResult, Model model,
 			SessionStatus status, HttpServletRequest request) throws Exception {
 		beanValidator.validate(vo, bindingResult);
 
@@ -214,7 +215,7 @@ public class EgovSiteController {
 			model.addAttribute("siteVO",vo);
 			return "site/egovSiteRegister";
 		}
-
+		vo.setUserSeq(userSeq);
 		String path = "./scenario";
 		String absolutePath = request.getServletContext().getRealPath(path);
 		Path paths = Paths.get(absolutePath);
@@ -254,7 +255,7 @@ public class EgovSiteController {
 			siteService.insertSite(vo);
 		}
 
-		return "redirect:/egovSiteList.do";
+		return "redirect:../egovSiteList/"+userSeq+".do";
 	}
 
 	/**
@@ -339,20 +340,22 @@ public class EgovSiteController {
 		searchVO.setSeq(seq);
 
 		FileVO file = fileService.selectFile(searchVO);
-
-		File down = new File(file.getUrl(), file.getName());
-
-		String encodedName = new String(file.getName().getBytes("UTF-8"), "iso-8859-1");
-
+		//String encodedName = new String(file.getName().getBytes("UTF-8"), "iso-8859-1");
+		
+		File down = new File(file.getUrl(), "");
+		log.info("filename : "+file.getName());
+		log.info(down.toString());
+		log.info(down.exists());
+		
 		response.setContentType("application/octet-stream");
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
 
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(down));
 		FileCopyUtils.copy(in, response.getOutputStream());
-		in.close();
+		in.close();	
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 
-		return "redirect:/egovSiteList.do";
+		return "redirect:../egovSiteList/1.do";
 	}
 }

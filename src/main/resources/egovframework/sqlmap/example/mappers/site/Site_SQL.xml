@@ -14,9 +14,9 @@
 
 	<insert id="insertSite" parameterType="SiteVO">
 		INSERT INTO SITE
-		( URL,FILE_SEQ,CDATE , CTIME)
+		( URL,FILE_SEQ,CDATE , CTIME,USER_SEQ)
 		VALUES ( #{url} ,#{fileSeq} , #{cdate},
-		#{ctime} )
+		#{ctime}, #{userSeq})
 	</insert>
 
 	<update id="updateSite">

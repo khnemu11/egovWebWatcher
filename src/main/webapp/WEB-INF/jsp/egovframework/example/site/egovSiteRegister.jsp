@@ -26,7 +26,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <c:set var="registerFlag"
 	value="${empty siteVO.url ? 'create' : 'modify'}" />
-	<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
+<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
+<c:set var="userSeq" value="${userSeq}" />
+<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
 <title>Sample <c:if test="${registerFlag == 'create'}">
 		<spring:message code="button.create" />
 	</c:if> <c:if test="${registerFlag == 'modify'}">
@@ -36,7 +38,8 @@
 <link type="text/css" rel="stylesheet"
 	href="<c:url value='/css/egovframework/sample.css'/>" />
 <!--For Commons Validator Client Side-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
 <validator:javascript formName="siteVO" staticJavascript="false"
 	xhtml="true" cdata="false" />
@@ -75,7 +78,15 @@
         	if(!validateSiteVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSite.do' : '/updateSite.do'}"/>";
+            	var action = ${registerFlag == 'create' ? '/addSite/' : '/updateSite/'};
+            	console.log(action);
+            	var url = ".."
+            	url = url + action;
+            	url = url + ${userSeq};
+            	url=url+".do"
+            	console.log(url);
+            	
+            	frm.action = url;
             	frm.method = "POST";
                 frm.submit();
             }
@@ -85,7 +96,8 @@
 <body
 	style="text-align: center; margin: 0 auto; display: inline; padding-top: 100px;">
 
-	<form:form commandName="siteVO" id="detailForm" name="detailForm"  enctype="multipart/form-data">
+	<form:form commandName="siteVO" id="detailForm" name="detailForm"
+		enctype="multipart/form-data">
 		<div id="content_pop">
 			<!-- 타이틀 -->
 			<div id="title">
@@ -120,10 +132,11 @@
 									code="site.url" /></label></td>
 						<td class="tbtd_content"><form:input path="url"
 								maxlength="30" cssClass="txt" /> &nbsp; <form:errors path="url" /></td>
-				 	<td class="tbtd_caption"><label for="file"><spring:message
+						<td class="tbtd_caption"><label for="file"><spring:message
 									code="site.file" /></label></td>
 						<td class="tbtd_content"><form:input path="file" type="file"
-								maxlength="30" cssClass="txt" /> &nbsp; <form:errors path="file" /></td> 
+								maxlength="30" cssClass="txt" /> &nbsp; <form:errors
+								path="file" /></td>
 					</tr>
 				</table>
 			</div>
@@ -163,7 +176,7 @@
 				</ul>
 			</div>
 		</div>
-<%-- 		<!-- 검색조건 유지 -->
+		<%-- 		<!-- 검색조건 유지 -->
 		<input type="hidden" name="searchCondition"
 			value="<c:out value='${searchVO.searchCondition}'/>" />
 		<input type="hidden" name="searchKeyword"

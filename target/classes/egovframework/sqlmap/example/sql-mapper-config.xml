@@ -13,5 +13,7 @@
 			type="egovframework.example.site.service.SiteVO" />
 		<typeAlias alias="fileVO"
 			type="egovframework.example.file.service.FileVO" />
+		<typeAlias alias="siteWithFileVO"
+			type="egovframework.example.site.service.SiteWithFileVO" />
 	</typeAliases>
 </configuration>
