@@ -1,58 +1,114 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+	pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<%-- <%@ include file="/common/inc/common.jsp"%><html> --%>
+<html>
 <head>
-	<%-- <%@ include file="/common/inc/head.jsp"%> --%>
-	<link rel="stylesheet" href="../arc/login/login.css">
+<%@ include file="/WEB-INF/jsp/egovframework/example/common/head.jsp"%>
+<title>Login</title>
 </head>
 <body>
-<%-- <%@ include file="/common/inc/topheader.jsp"%> --%>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+		<%@ include
+			file="/WEB-INF/jsp/egovframework/example/common/header.jsp"%>
 
-<div class="container_login">
-<div class="mdl-grid">
-<div class = "mdl-cell mdl-cell--2-col "></div>
-<div class = "mdl-cell mdl-cell--8-col" id="row_login">
-<s:form method="POST" theme="simple">
-				<s:if test="form.blockdate != null">
-					<s:text name="errors.login.overlimit"><s:param value="form.blockdate"/></s:text>
-				</s:if>
-				 <div class="mdl-grid">
-        <div class = "mdl-cell mdl-cell--4-col-desktop mdl-cell--2-col-tablet"></div>
-        <div class = "mdl-cell mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone" id="login-form">
-          <h3 class="content-title"><s:text name="login.title"/></h3>
-          <div class="input-name"><s:text name="login.id"/></div>
-          <div class="mdl-textfield mdl-js-textfield textfield">
-            <s:textfield name="form.loginId" cssClass="mdl-textfield__input" id="loginId" ></s:textfield>
-          </div>
-          <s:fielderror theme="simple"><s:param name="form.loginId">form.loginId</s:param></s:fielderror>
-          <div class="input-password"><s:text name="login.password"/></div>
-          <div class="mdl-textfield mdl-js-textfield textfield">
-            <s:password name="form.password" cssClass="mdl-textfield__input" id="password"/>
-          </div>
-          <s:fielderror theme="simple"><s:param name="form.password">form.password</s:param></s:fielderror>
-		  <s:fielderror theme="simple"><s:param name="form.fail">form.fail</s:param></s:fielderror>
-		  <s:fielderror theme="simple"><s:param name="form.overlimit">form.overlimit</s:param></s:fielderror>
-          <s:submit id="login-button" action="login_login" cssClass="mdl-button mdl-js-button mdl-js-ripple-effect" key="login.login"/>
-          <div class="sign-up">
-            <a href ="../signup/signupInput.arc" id="sign-up-button"><s:text name="login.signup"/></a>
-          </div>
-          <div class ="forgot-password">
-            <a href="../findpassword/findpasswordInput.arc"><s:text name="login.forgetPassword"/></a>
-          </div>
-        </div>
-        <div class = "mdl-cell mdl-cell--4-col-desktop mdl-cell--2-col-tablet"></div>
-      </div>
-</s:form>
-</div>
-<div class = "mdl-cell mdl-cell--2-col "></div>
-</div>
-</div>
-<%-- <%@ include file="/common/inc/footer.jsp"%> --%>
+		<main class="mdl-layout__content">
+			<div class="mdl-grid">
+				<div class="mdl-cell mdl-cell--4-col"></div>
 
-<script type="text/javascript"
-	src="../../resources/arc/js/material.js"></script>
+				<div
+					class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--16dp util-center util-spacing-h--100px">
+					<div class="mdl-card__title mdl-color--teal-500">
+						<h2 class="mdl-card__title-text mdl-color-text--white">Login</h2>
+					</div>
+					<div class="mdl-card__supporting-text mdl-grid">
+
+						<form method="POST" action="loginOk.do">
+							<input type="hidden" name="action" value="login" />
+							<div
+								class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+								<label class="mdl-textfield__label mdl-color-text--grey"
+									for="textfield_new_login_id">ID</label> <input
+									class="mdl-textfield__input" type="text"
+									id="textfield_new_login_id" name="loginId" autofocus /> <span
+									class="mdl-textfield__error">3-15 characters with only
+									lowercase letters, digits, underscore, and hyphen</span>
+							</div>
+
+							<div
+								class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+								<label class="mdl-textfield__label mdl-color-text--grey"
+									for="textfield_new_password">Password</label> <input
+									class="mdl-textfield__input" type="password"
+									id="textfield_new_password" name="password" />
+								<span class="mdl-textfield__error"> 6-20 characters with
+									at least a digit, lowercase and uppercase letters, and special
+									symbol in @#$% </span>
+							</div>
+
+							<div class="mdl-cell mdl-cell--12-col send-button" align="center">
+								<button
+									class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored"
+									id="login">LOG IN</button>
+							</div>
+
+							<div class="mdl-cell mdl-cell--12-col send-button" align="center">
+								<button class="mdl-button mdl-js-button mdl-js-ripple-effect"
+									id="Register">SignUp</button>
+							</div>
+
+							<div class="mdl-cell mdl-cell--12-col" align="center">
+								<a href="#">Forgot Password?</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</main>
+		
+		<%@ include
+			file="/WEB-INF/jsp/egovframework/example/common/footer.jsp"%>
+	</div>
+
+	<script type="text/javascript" src="../../resources/arc/js/material.js"></script>
 </body>
 </html>
-</html>
+
+
+
+<!-- 
+<figure class="front">
+                <div class="mdl-card mdl-shadow--6dp">
+                    <div class="mdl-card__title mdl-color--primary mdl-color-text--white relative">
+                        <h2 class="mdl-card__title-text">Simple Login</h2>
+                    </div>
+
+                    <div class="mdl-card__supporting-text">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" id="login"/>
+                            <label class="mdl-textfield__label" for="login">Login</label>
+                        </div>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="password" id="password"/>
+                            <label class="mdl-textfield__label" for="password">Password</label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-card__actions mdl-card--border">
+                        <div class="mdl-grid">
+                            <button class="mdl-cell mdl-cell--12-col mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-color-text--white">
+                                Login
+                            </button>
+
+                        </div>
+
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--12-col">
+                                <a onClick='flip("show-left")' class="mdl-color-text--primary">Sign up!</a>
+                                <a onClick='flip("show-bottom")' class="mdl-color-text--primary" style="float: right">Lost
+                                    Password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </figure> -->
