@@ -22,11 +22,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,12 +40,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.file.service.FileService;
 import egovframework.example.file.service.FileVO;
-import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.site.service.EgovSiteService;
 import egovframework.example.site.service.SiteVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
@@ -66,6 +71,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 @Controller
 public class EgovSiteController {
 
+	private static final Log log = LogFactory.getLog(EgovSiteController.class);
 	/** EgovSampleService */
 	@Resource(name = "siteService")
 	private EgovSiteService siteService;
@@ -110,7 +116,6 @@ public class EgovSiteController {
 
 		List<?> siteList = siteService.selectSiteList(searchVO);
 		List<?> fileList = fileService.selectFileList(fileSearchVO);
-
 
 		model.addAttribute("resultList", siteList);
 		model.addAttribute("fileList", fileList);
@@ -162,14 +167,34 @@ public class EgovSiteController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addSiteForm.do", method = RequestMethod.GET)
-	public String addSiteView(@ModelAttribute("searchVO") SampleDefaultVO searchVO,@ModelAttribute("fileDuplicate") String fileDuplicate,  Model model) throws Exception {
-		System.out.println("add form start");
-		model.addAttribute("siteVO", new SiteVO());
-		model.addAttribute("fileDuplicate", "true");
+	@RequestMapping(value = "/reAddSiteForm.do", method = RequestMethod.GET)
+	public String reAddSiteView(Model model,HttpServletRequest request) throws Exception {
+		try {
+			log.info("re add form start");
+			Map<String,?> map= RequestContextUtils.getInputFlashMap(request);
+			if (map != null ) {
+				SiteVO vo = (SiteVO)map.get("siteVO");
+				log.info(vo.getFile().getOriginalFilename());
+				model.addAttribute("siteVO",vo);
+			}
+		} catch (Exception e) {
+			log.info(e.getStackTrace());
+		}
+
 		return "site/egovSiteRegister";
 	}
+	
+	@RequestMapping(value = "/addSiteForm.do", method = RequestMethod.GET)
+	public String addSiteView(@ModelAttribute("siteVO") SiteVO vo, Model model) throws Exception {
+		try {
+			log.info("add form start");
+			model.addAttribute("siteVO", vo);
+		} catch (Exception e) {
+			log.info(e.getStackTrace());
+		}
 
+		return "site/egovSiteRegister";
+	}
 	/**
 	 * 글을 등록한다.
 	 * 
@@ -185,11 +210,12 @@ public class EgovSiteController {
 		beanValidator.validate(vo, bindingResult);
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("siteVO", vo);
-			return "site/addSite.do";
+			log.info("ready for redirect add form");
+			log.info("name : "+vo.getFile().getOriginalFilename());
+			model.addAttribute("siteVO",vo);
+			return "site/egovSiteRegister";
 		}
-		
-		
+
 		String path = "./scenario";
 		String absolutePath = request.getServletContext().getRealPath(path);
 		Path paths = Paths.get(absolutePath);
@@ -204,18 +230,18 @@ public class EgovSiteController {
 
 		if (vo.getFile() != null) {
 			System.out.println(absolutePath);
-			
+
 			FileVO searchVO = new FileVO();
 			searchVO.setName(vo.getFile().getOriginalFilename());
-			
+
 			int count = fileService.selectFileByNameCnt(searchVO);
-			if(count>1) {
+			if (count > 1) {
 				model.addAttribute("siteVO", vo);
 				model.addAttribute("fileDuplicate", "true");
 				System.out.println("duplicate file");
 				return "redirect:/addSiteForm.do";
 			}
-			
+
 			File file = new File(absolutePath, vo.getFile().getOriginalFilename());
 
 			System.out.println();
@@ -231,7 +257,7 @@ public class EgovSiteController {
 			fileVO.setName(vo.getFile().getOriginalFilename());
 			fileVO.setUrl(absolutePath + "\\" + fileVO.getName());
 			fileService.insertFile(fileVO);
-			
+
 			int fileSeq = fileService.selectFileByName(fileVO).getSeq();
 			vo.setFileSeq(fileSeq);
 			siteService.insertSite(vo);

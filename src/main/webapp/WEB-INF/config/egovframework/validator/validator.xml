@@ -20,10 +20,10 @@
 	</formset>
 	<formset>
 		<form name="siteVO">
-			<field property="url" depends="required">
+			<field property="url" depends="requiredBackEnd">
 				<arg0 key="site.url" />
 			</field>
-			<field property="file" depends="required">
+			<field property="file" depends="requiredFile">
 			</field>
 		</form>
 	</formset>
