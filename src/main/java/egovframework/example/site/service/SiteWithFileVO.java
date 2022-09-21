@@ -32,7 +32,7 @@ import egovframework.example.file.service.FileVO;
  *
  *      Copyright (C) by MOPAS All right reserved.
  */
-public class SiteWithFileVO extends CommonVO{
+public class SiteWithFileVO extends CommonVO {
 	/**
 	 * 
 	 */
@@ -44,47 +44,70 @@ public class SiteWithFileVO extends CommonVO{
 	private int fileSeq;
 	private String siteUrl;
 	private String fileUrl;
+	private String fileName;
 	private int userSeq;
-	
+
 	public int getUserSeq() {
 		return userSeq;
 	}
+
 	public void setUserSeq(int userSeq) {
 		this.userSeq = userSeq;
 	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	public static void setSerialversionuid(long serialversionuid) {
 		serialVersionUID = serialversionuid;
 	}
+
 	public int getSiteseq() {
 		return siteSeq;
 	}
+
 	public void setSiteseq(int siteseq) {
 		this.siteSeq = siteseq;
 	}
+
 	public int getFileSeq() {
 		return fileSeq;
 	}
+
 	public void setFileSeq(int fileSeq) {
 		this.fileSeq = fileSeq;
 	}
+
 	public String getFileUrl() {
 		return fileUrl;
 	}
+
 	public void setFileUrl(String fileUrl) {
 		this.fileUrl = fileUrl;
 	}
+
 	public String getSiteUrl() {
 		return siteUrl;
 	}
+
 	public void setSiteUrl(String siteUrl) {
 		this.siteUrl = siteUrl;
 	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	@Override
 	public String toString() {
-		return "SiteWithFileVO [siteseq=" + siteSeq + ", fileSeq=" + fileSeq + ", siteUrl=" + siteUrl + ", fileUrl="
-				+ fileUrl + ", userSeq=" + userSeq + "]";
+		return "SiteWithFileVO [siteSeq=" + siteSeq + ", fileSeq=" + fileSeq + ", siteUrl=" + siteUrl + ", fileUrl="
+				+ fileUrl + ", fileName=" + fileName + ", userSeq=" + userSeq + "]";
 	}
+
+	
 }

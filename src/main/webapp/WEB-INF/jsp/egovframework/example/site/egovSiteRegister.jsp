@@ -25,7 +25,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <c:set var="registerFlag"
-	value="${empty siteVO.url ? 'create' : 'modify'}" />
+	value="${empty siteVO.seq ? 'create' : 'modify'}" />
 <c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
 <c:set var="userSeq" value="${userSeq}" />
 <c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
