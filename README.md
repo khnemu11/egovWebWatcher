@@ -86,3 +86,7 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
  - 전체 사이트 리스트 출력 기능 삭제
  - 유저별 사이트 리스트/등록/삭제 기능 추가
  - login 및 유저 컬럼에 version과 로그인 실패 관련 컬럼 추가
+  ### 2022-09-21
+ - fileservice에 filename 컬럼이 누락된 것을 확인 후 해당 컨트롤러,xml,jsp 파일 수정
+ - update 페이지 연동
+ - sitelist 페이지네이션 오류 수정(userSeq를 searchkey로 설정해 놓은것을 삭제 후 userSeq 조건문 추가)
