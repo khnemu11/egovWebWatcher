@@ -147,7 +147,8 @@ public class EgovSiteServiceImpl extends CommonServiceImpl implements EgovSiteSe
 	@Override
 	public void updateSite(SiteVO vo) throws Exception {
 		// TODO Auto-generated method stub
-
+		setUpdate(vo);
+		siteDAO.updateSite(vo);
 	}
 
 	@Override
