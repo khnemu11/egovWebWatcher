@@ -24,11 +24,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<c:set var="registerFlag"
-	value="${empty siteVO.seq ? 'create' : 'modify'}" />
-<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
+<c:set var="registerFlag" value="${siteVO.seq==0 ? 'create' : 'modify'}" />
 <c:set var="userSeq" value="${userSeq}" />
-<c:set var="error" value="${empty fileDuplicate ? 'none' : 'error'}" />
 <title>Sample <c:if test="${registerFlag == 'create'}">
 		<spring:message code="button.create" />
 	</c:if> <c:if test="${registerFlag == 'modify'}">
@@ -77,15 +74,33 @@
         	frm = document.detailForm;
         	if(!validateSiteVO(frm)){
                 return;
-            }else{
-            	var action = ${registerFlag == 'create' ? '/addSite/' : '/updateSite/'};
+            } else {
+            	var action = '/addSite/';
             	console.log(action);
             	var url = ".."
             	url = url + action;
             	url = url + ${userSeq};
             	url=url+".do"
-            	console.log(url);
             	
+            	frm.action = url;
+            	frm.method = "POST";
+                frm.submit();
+            }
+        }
+        
+        function fn_egov_edit(siteSeq) {
+        	frm = document.detailForm;
+        	if(!validateSiteVO(frm)){
+                return;
+            }else{
+            	var action = '/updateSite/';
+            	console.log(action);
+            	var url = ".."
+            	url = url + action;
+            	url = url + ${userSeq};
+            	url=url+".do"
+            	url=url+"?siteSeq=";
+            	url=url+siteSeq;
             	frm.action = url;
             	frm.method = "POST";
                 frm.submit();
@@ -119,24 +134,28 @@
 						<col width="150" />
 						<col width="?" />
 					</colgroup>
-					<c:if test="${registerFlag == 'modify'}">
+					<%-- 					<c:if test="${registerFlag == 'modify'}">
 						<tr>
 							<td class="tbtd_caption"><label for="seq"><spring:message
 										code="site.seq" /></label></td>
 							<td class="tbtd_content"><form:input path="seq"
 									cssClass="essentiality" maxlength="10" readonly="true" /></td>
 						</tr>
-					</c:if>
+					</c:if> --%>
 					<tr>
 						<td class="tbtd_caption"><label for="url"><spring:message
 									code="site.url" /></label></td>
 						<td class="tbtd_content"><form:input path="url"
-								maxlength="30" cssClass="txt" /> &nbsp; <form:errors path="url" /></td>
+								value="${siteVO.url}" maxlength="30" cssClass="txt" /> &nbsp; <form:errors
+								path="url" /></td>
+
 						<td class="tbtd_caption"><label for="file"><spring:message
 									code="site.file" /></label></td>
 						<td class="tbtd_content"><form:input path="file" type="file"
 								maxlength="30" cssClass="txt" /> &nbsp; <form:errors
-								path="file" /></td>
+								path="file" /> <c:if test="${registerFlag == 'modify'}">
+								<spring:message code="site.currFile" arguments="${fileName}" />
+							</c:if></td>
 					</tr>
 				</table>
 			</div>
@@ -148,25 +167,27 @@
 							src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 							style="margin-left: 6px;" alt="" />
 					</span></li>
-					<li><span class="btn_blue_l"> <a
-							href="javascript:fn_egov_save();"> <c:if
-									test="${registerFlag == 'create'}">
-									<spring:message code="button.create" />
-								</c:if> <c:if test="${registerFlag == 'modify'}">
-									<spring:message code="button.modify" />
-								</c:if>
-						</a> <img
+					<li><span class="btn_blue_l"> <c:if
+								test="${registerFlag == 'create'}">
+								<a href="javascript:fn_egov_save();"> <spring:message
+										code="button.create" />
+								</a>
+							</c:if> <c:if test="${registerFlag == 'modify'}">
+								<a href="javascript:fn_egov_edit(${siteVO.seq});"> <spring:message
+										code="button.modify" />
+								</a>
+							</c:if><img
 							src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 							style="margin-left: 6px;" alt="" />
 					</span></li>
-					<c:if test="${registerFlag == 'modify'}">
+					<%-- 	<c:if test="${registerFlag == 'modify'}">
 						<li><span class="btn_blue_l"> <a
 								href="javascript:fn_egov_delete();"><spring:message
 										code="button.delete" /></a> <img
 								src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 								style="margin-left: 6px;" alt="" />
 						</span></li>
-					</c:if>
+					</c:if> --%>
 					<li><span class="btn_blue_l"> <a
 							href="javascript:document.detailForm.reset();"><spring:message
 									code="button.reset" /></a> <img

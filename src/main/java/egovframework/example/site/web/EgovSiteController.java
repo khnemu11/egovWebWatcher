@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine.Parameters;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -166,22 +167,22 @@ public class EgovSiteController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/reAddSiteForm.do", method = RequestMethod.GET)
-	public String reAddSiteView(Model model, HttpServletRequest request) throws Exception {
-		try {
-			log.info("re add form start");
-			Map<String, ?> map = RequestContextUtils.getInputFlashMap(request);
-			if (map != null) {
-				SiteVO vo = (SiteVO) map.get("siteVO");
-				log.info(vo.getFile().getOriginalFilename());
-				model.addAttribute("siteVO", vo);
-			}
-		} catch (Exception e) {
-			log.info(e.getStackTrace());
-		}
-
-		return "site/egovSiteRegister";
-	}
+//	@RequestMapping(value = "/reAddSiteForm.do", method = RequestMethod.GET)
+//	public String reAddSiteView(Model model, HttpServletRequest request) throws Exception {
+//		try {
+//			log.info("re add form start");
+//			Map<String, ?> map = RequestContextUtils.getInputFlashMap(request);
+//			if (map != null) {
+//				SiteVO vo = (SiteVO) map.get("siteVO");
+//				log.info(vo.getFile().getOriginalFilename());
+//				model.addAttribute("siteVO", vo);
+//			}
+//		} catch (Exception e) {
+//			log.info(e.getStackTrace());
+//		}
+//
+//		return "site/egovSiteRegister";
+//	}
 
 	@RequestMapping(value = "/addSiteForm/{userSeq}.do", method = RequestMethod.GET)
 	public String addSiteView(@PathVariable int userSeq, @ModelAttribute("siteVO") SiteVO vo, Model model)
@@ -202,13 +203,13 @@ public class EgovSiteController {
 			@ModelAttribute("siteVO") SiteVO vo, Model model) throws Exception {
 		try {
 			log.info("update form start");
-
+			log.info(siteSeq);
 			SiteWithFileVO searchVO = new SiteWithFileVO();
-			searchVO.setSeq(siteSeq);
-
+			searchVO.setSiteseq(siteSeq);
+			
 			SiteWithFileVO siteWithFileVO = siteService.selectSite(searchVO);
 			SiteVO siteVO = new SiteVO(siteWithFileVO);
-
+			log.info("site vo : "+siteVO.toString());
 			model.addAttribute("siteVO", siteVO);
 			model.addAttribute("userSeq", userSeq);
 			model.addAttribute("fileName", siteWithFileVO.getFileName());
@@ -219,7 +220,76 @@ public class EgovSiteController {
 
 		return "site/egovSiteRegister";
 	}
+	@RequestMapping(value = "/updateSite/{userSeq}.do", method = RequestMethod.POST)
+	public String updateSite(@PathVariable int userSeq, @RequestParam(value = "siteSeq") int siteSeq, @ModelAttribute("siteVO") SiteVO vo, BindingResult bindingResult,
+			Model model, SessionStatus status, HttpServletRequest request) throws Exception {
+		log.info("input siteVo : "+vo.toString());;
+		beanValidator.validate(vo, bindingResult);
+		
+		
+		if (bindingResult.hasErrors()) {
+			log.info(bindingResult.toString());
+			log.info("ready for redirect edit form");
+			log.info("name : " + vo.getFile().getOriginalFilename());
 
+			SiteWithFileVO searchVO = new SiteWithFileVO();
+			searchVO.setSiteseq(siteSeq);
+			SiteWithFileVO siteWithFileVO = siteService.selectSite(searchVO);
+			vo.setSeq(siteWithFileVO.getSiteseq());
+			model.addAttribute("siteVO", vo);
+			model.addAttribute("userSeq",userSeq);
+			model.addAttribute("fileName",siteWithFileVO.getFileName());
+			
+			return "site/egovSiteRegister";
+		}
+		
+		vo.setUserSeq(userSeq);
+		vo.setSeq(siteSeq);
+		
+		String path = "./scenario";
+		String absolutePath = request.getServletContext().getRealPath(path);
+		Path paths = Paths.get(absolutePath);
+		File directory = new File(absolutePath);
+
+		log.info("directory is exist" + Files.exists(paths));
+
+		if (!Files.exists(paths)) {
+			directory.mkdir();
+			log.info("make folder");
+		}
+
+		if (vo.getFile() != null) {
+			log.info(absolutePath);
+
+			FileVO searchVO = new FileVO();
+			searchVO.setName(vo.getFile().getOriginalFilename());
+
+			File file = new File(absolutePath, vo.getFile().getOriginalFilename());
+
+			if (file.exists()) {
+				log.info("file is exist");
+				file.delete();
+			}
+
+			vo.getFile().transferTo(new File(absolutePath, vo.getFile().getOriginalFilename()));
+			
+			SiteWithFileVO searchSiteWithFileVO = new SiteWithFileVO();
+			searchSiteWithFileVO.setSiteseq(siteSeq);
+			SiteWithFileVO siteWithFileVO = siteService.selectSite(searchSiteWithFileVO);
+			
+			FileVO fileVO = new FileVO();
+			fileVO.setName(vo.getFile().getOriginalFilename());
+			fileVO.setUrl(absolutePath + "\\" + fileVO.getName());
+			fileVO.setSeq(siteWithFileVO.getFileSeq());
+			fileService.updateFile(fileVO);
+
+			int fileSeq = fileService.selectFileByName(fileVO).getSeq();
+			vo.setFileSeq(fileSeq);
+			siteService.updateSite(vo);
+		}
+
+		return "redirect:../egovSiteList/" + userSeq + ".do";
+	}
 	/**
 	 * 글을 등록한다.
 	 * 

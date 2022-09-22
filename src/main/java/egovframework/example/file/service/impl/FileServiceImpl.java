@@ -49,7 +49,6 @@ public class FileServiceImpl extends CommonServiceImpl implements FileService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileServiceImpl.class);
 
-
 	@Resource(name = "fileMapper")
 	private FileMapper fileDAO;
 

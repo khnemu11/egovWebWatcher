@@ -49,6 +49,7 @@ public class SiteDAO extends EgovAbstractDAO {
 	 * @exception Exception
 	 */
 	public String insertSite(SiteVO vo) throws Exception {
+
 		return (String) insert("siteDAO.insertSite", vo);
 	}
 

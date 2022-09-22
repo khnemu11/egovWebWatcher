@@ -20,13 +20,13 @@
 	</insert>
 
 	<update id="updateSite">
-		UPDATE SAMPLE
-		SET ID=#{id}
-		, NAME=#{name}
-		,
-		DESCRIPTION=#{description}
-		, USE_YN=#{useYn}
-		WHERE ID=#{id}
+		UPDATE SITE
+		SET URL = #{url},
+			FILE_SEQ = #{fileSeq},
+			UDATE = #{udate},
+			UTIME = #{utime},
+			USER_SEQ = #{userSeq}
+		WHERE SEQ=#{seq}
 
 	</update>
 

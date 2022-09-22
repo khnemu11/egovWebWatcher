@@ -12,6 +12,6 @@ public interface LoginMapper {
 	List<LoginVO> selectLogin(LoginVO vo) throws Exception;
 	
 	long selectLoginCheck(LoginVO vo) throws Exception;
-	
+		
 	int updateLoginFail(LoginVO vo) throws Exception;
 }

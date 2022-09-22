@@ -42,11 +42,11 @@ public class SiteVO extends CommonVO {
 	private int version;
 	private MultipartFile file;
 	private int fileSeq;
-
 	
 	public SiteVO(){}
 
 	public SiteVO(SiteWithFileVO vo){
+		super.setSeq(vo.getSiteseq());
 		this.userSeq = vo.getUserSeq();
 		this.url = vo.getSiteUrl();
 		this.version = vo.getVersion();
@@ -103,6 +103,12 @@ public class SiteVO extends CommonVO {
 
 	public void setFileSeq(int fileSeq) {
 		this.fileSeq = fileSeq;
+	}
+
+	@Override
+	public String toString() {
+		return "SiteVO [userSeq=" + userSeq + ", url=" + url + ", scenarioId=" + scenarioId + ", version=" + version
+				+ ", file=" + file + ", fileSeq=" + fileSeq + "]";
 	}
 
 }

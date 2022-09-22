@@ -14,7 +14,7 @@ public class FileValidator implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final Log log = LogFactory.getLog(FileValidator.class);
 
-	public static boolean isValidFileName(String value) {
+	public static boolean isValidFileName(String value) { //db에서 파일 이름을 검색하여 이미 있는 이름인지 확인하는 메소드
 		try {
 			log.info("file name validate start");
 			if (value.isEmpty()) {
@@ -28,13 +28,11 @@ public class FileValidator implements Serializable {
 			String sql = "SELECT count(*) FROM SCENARIO	WHERE DDATE =0 AND DTIME=0 AND NAME =?"; // 쿼리입력
 			PreparedStatement pstmt = con.prepareStatement(sql); // 동적쿼리 부분
 			pstmt.setString(1, value);
-
 			ResultSet rs = pstmt.executeQuery(); // 쿼리 실행
-
+			
 			while (rs.next()) { // 쿼리 결과 가져오는 부분
 				int count = rs.getInt(1);
-
-				if (count > 1) {
+				if (count > 0) {
 					log.info(value + " is duplicate in DB");
 					return false; // 실패
 				} else {
@@ -49,10 +47,9 @@ public class FileValidator implements Serializable {
 		}
 		return true;
 	}
-
-	public static boolean isValidFileRequired(String value) {
+	public static boolean isValidFileRequired(String value) { //파일 이름이 비어있는지 확인하는 메소드
 		try {
-			if (value.isEmpty()) {
+			if (value.isEmpty() || value.equals("file")) {
 				return false;
 			} else {
 				return true;

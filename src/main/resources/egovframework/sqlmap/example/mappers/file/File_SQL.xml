@@ -11,14 +11,13 @@
 		( #{name}, #{url},#{cdate}, #{ctime})
 	</insert>
 
-	<update id="updateFile">
-		UPDATE SAMPLE
-		SET ID=#{id}
-		, NAME=#{name}
-		,
-		DESCRIPTION=#{description}
-		, USE_YN=#{useYn}
-		WHERE ID=#{id}
+	<update id="updateFile" parameterType = "fileVO">
+		UPDATE SCENARIO
+		SET name = #{name},
+			url = #{url},
+			udate = #{udate},
+			utime = #{utime}
+		WHERE seq=#{seq} AND DDATE = 0 AND DTIME =0
 
 	</update>
 
@@ -31,7 +30,8 @@
 		WHERE seq=#{seq}
 	</delete>
 
-	<select id="selectFile" parameterType="fileVO" resultType="fileVO">
+	<select id="selectFile" parameterType="fileVO"
+		resultType="fileVO">
 		SELECT
 		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
 		UDATE,
@@ -39,7 +39,8 @@
 		FROM SCENARIO
 		WHERE DDATE =0 AND DTIME=0 AND SEQ = #{seq}
 	</select>
-	<select id="selectFileByName" parameterType="fileVO" resultType="fileVO">
+	<select id="selectFileByName" parameterType="fileVO"
+		resultType="fileVO">
 		SELECT
 		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
 		UDATE,
@@ -47,12 +48,13 @@
 		FROM SCENARIO
 		WHERE DDATE =0 AND DTIME=0 AND NAME = #{name}
 	</select>
-	<select id="selectFileByNameCnt" parameterType="fileVO" resultType="Integer">
+	<select id="selectFileByNameCnt" parameterType="fileVO"
+		resultType="Integer">
 		SELECT
-			count(*)
+		count(*)
 		FROM SCENARIO
-		WHERE 
-			DDATE =0 AND DTIME=0 AND NAME = #{name}
+		WHERE
+		DDATE =0 AND DTIME=0 AND NAME = #{name}
 	</select>
 	<select id="selectFileList" parameterType="searchVO"
 		resultType="egovMap">
