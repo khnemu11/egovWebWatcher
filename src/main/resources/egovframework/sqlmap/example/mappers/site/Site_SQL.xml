@@ -14,9 +14,9 @@
 
 	<insert id="insertSite" parameterType="SiteVO">
 		INSERT INTO SITE
-		( URL,FILE_SEQ,CDATE , CTIME)
+		( URL,FILE_SEQ,CDATE , CTIME,USER_SEQ)
 		VALUES ( #{url} ,#{fileSeq} , #{cdate},
-		#{ctime} )
+		#{ctime}, #{userSeq})
 	</insert>
 
 	<update id="updateSite">
@@ -43,10 +43,13 @@
 	</delete>
 
 	<select id="selectSite" parameterType = "siteWithFileVO" resultType="siteWithFileVO">
-		SELECT
-			seq as siteSeq, file_seq as fileSeq, user_seq as userSeq
-		FROM SITE
-			WHERE seq=#{siteSeq}
+	    SELECT
+			site.seq as siteSeq, scenario.seq as fileSeq, site.url as siteUrl, scenario.url as fileUrl, scenario.name as fileName,site.user_seq as userSeq
+		FROM 
+			SCENARIO, SITE
+		where 
+			site.file_seq = scenario.seq AND site.DDATE = 0 AND site.DTIME=0 AND site.seq=#{siteSeq}
+			AND scenario.DDATE = 0 AND scenario.DTIME=0
 
 	</select>
 
@@ -81,13 +84,12 @@
 	<select id="selectSiteWithFileList" parameterType="siteWithFileVO"
 		resultType="egovMap">
 		SELECT
-			site.seq as siteSeq, scenario.seq as fileSeq, site.url as siteUrl, scenario.url as fileUrl
+			site.seq as siteSeq, scenario.seq as fileSeq, site.url as siteUrl, scenario.url as fileUrl, scenario.name as fileName
 		FROM 
 			SCENARIO, SITE
 		where 
 			site.file_seq = scenario.seq AND site.DDATE = 0 AND site.DTIME=0
-			AND scenario.DDATE = 0 AND scenario.DTIME=0 AND site.user_seq=#{searchKeyword}
-		
+			AND scenario.DDATE = 0 AND scenario.DTIME=0 AND site.user_seq=#{userSeq}
 		ORDER BY site.SEQ ASC
 		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
@@ -108,11 +110,7 @@
 			</choose>
 		</if>
 		<if test="userSeq != null and userSeq != 0">
-			<choose>
-				<when test="searchCondition == 0">
-					AND USER_SEQ = #{userSeq}
-				</when>
-			</choose>
+			AND USER_SEQ = #{userSeq}
 		</if>
 	</select>
 

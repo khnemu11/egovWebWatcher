@@ -43,6 +43,16 @@ public class SiteVO extends CommonVO {
 	private MultipartFile file;
 	private int fileSeq;
 
+	
+	public SiteVO(){}
+
+	public SiteVO(SiteWithFileVO vo){
+		this.userSeq = vo.getUserSeq();
+		this.url = vo.getSiteUrl();
+		this.version = vo.getVersion();
+		this.fileSeq = vo.getFileSeq();
+	}
+	
 	public int getUserSeq() {
 		return userSeq;
 	}

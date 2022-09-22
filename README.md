@@ -79,3 +79,14 @@ https://www.figma.com/file/4QkriGQPACgyceDZFSxgGU/Watcher?node-id=0%3A1
  ### 2022-09-16
  - 사이트 시나리오 다운로드 적용(미완)
  - 사이트 시나리오 이름 validator추가
+ ### 2022-09-19
+ - spring+jakarta api를 활용한 백엔드 validator 패키지 추가 및 사이트 등록에 적용
+ - 파일 다운로드 구형
+ - site와 file 테이블을 묶어주는 siteWithFileVO을 이용한 사이트+파일 리스트 목록 출력 기능 추가
+ - 전체 사이트 리스트 출력 기능 삭제
+ - 유저별 사이트 리스트/등록/삭제 기능 추가
+ - login 및 유저 컬럼에 version과 로그인 실패 관련 컬럼 추가
+  ### 2022-09-21
+ - fileservice에 filename 컬럼이 누락된 것을 확인 후 해당 컨트롤러,xml,jsp 파일 수정
+ - update 페이지 연동
+ - sitelist 페이지네이션 오류 수정(userSeq를 searchkey로 설정해 놓은것을 삭제 후 userSeq 조건문 추가)

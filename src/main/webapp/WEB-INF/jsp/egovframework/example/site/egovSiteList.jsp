@@ -23,6 +23,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<c:set var="userSeq" value="${userSeq}"/>
 <title>Web Watcher</title>
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -30,14 +31,15 @@
 	href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 <script type="text/javaScript" language="javascript" defer="defer">
-
-        /* 글 목록 화면 function */
-/*         function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
-           	document.detailForm.submit();
-        }
-         */
         /* 글 삭제 function */
+         function fn_egov_update(seq) {
+        		var url = "../updateSiteForm/";
+        		url = url+${userSeq};
+        		url = url+".do";
+        		url = url+"?siteSeq=";
+        		url = url+seq;
+        		location.href = url;
+        }
         function fn_egov_delete(seq) {
         	if(confirm("정말로 삭제하시겠습니까?")){
         		var url = "../deleteSite/";
@@ -52,14 +54,19 @@
         	if(!validateSampleVO(frm)){
                 return;
             }else{
-            	frm.action = "<c:url value='/addSiteForm.do'/>";
+            	frm.action = "<c:url value='../addSiteForm.do'/>";
                 frm.submit();
             }
         }
+
         /*표준프레임워크 페이징 */
         function fn_egov_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
-        	document.listForm.action = "<c:url value='/egovSiteList.do'/>";
+        	var action = "/egovWebWatcher/egovSiteList/";
+        	action = action+${userSeq};
+        	action = action+".do";
+        	
+        	document.listForm.action = action;
            	document.listForm.submit();
         }
     </script>
@@ -134,11 +141,14 @@
 
 									<td align="center" class="listtd"><c:out
 											value="${result.siteUrl}" />&nbsp;</td>
-									<td align="center" class="listtd"><a href="./attach/${result.fileSeq}.do"><c:out
-											value="${result.fileUrl}" /></a>&nbsp;</td>
+									<td align="center" class="listtd"><a
+										href="../attach/${result.fileSeq}.do"><c:out
+												value="${result.fileName}" /></a>&nbsp;</td>
 									<td align="center" class="listtd"><c:out value="" /><a
 										href="javascript:void(0)"
-										onclick="fn_egov_delete(${result.siteSeq})">delete&nbsp;</a></td>
+										onclick="fn_egov_delete(${result.siteSeq})">delete&nbsp;</a> <a
+										href="javascript:void(0)"
+										onclick="fn_egov_update(${result.siteSeq})">update&nbsp;</a></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -152,7 +162,8 @@
 
 					<div id="sysbtn">
 						<ul>
-							<li><span class="btn_blue_l"> <a href="./addSiteForm.do"><spring:message
+							<li><span class="btn_blue_l"> <a
+									href="../addSiteForm/${userSeq}.do"><spring:message
 											code="button.create" /></a> <img
 									src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>"
 									style="margin-left: 6px;" alt="" />
