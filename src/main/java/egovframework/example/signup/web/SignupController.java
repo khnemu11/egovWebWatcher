@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 import egovframework.example.signup.service.SignupService;
+import egovframework.example.user.service.UserService;
 import egovframework.example.user.service.UserVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
@@ -16,6 +17,9 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 public class SignupController {
 	@Resource(name = "signupService")
 	SignupService signupService;
+	
+	@Resource(name = "userService")
+	UserService userService;
 	
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
@@ -37,13 +41,21 @@ public class SignupController {
 	@RequestMapping(value = "/signupOk.do", method=RequestMethod.POST)
 	public String registerOk(UserVO user) throws Exception {
 		String returnUrl = "";
-		int i = signupService.insertTuser(user);
-		int j = signupService.insertTarclogin(user);
-		if(i > 0 && j > 0) {
+		
+		// TODO: SQLException 처리
+		int insertTuser = signupService.insertTuser(user);
+		long userSeq = userService.selectUserSeq(user);
+		user.setSeq(userSeq);
+		int insertTarclogin = signupService.insertTarclogin(user);
+		
+				
+				
+		if(insertTuser > 0 && insertTarclogin > 0) {
 			return "redirect:/login.do";
 		}else {
 			returnUrl = "signupfail";
 		}
+		
 		return returnUrl;
 	}
 }
