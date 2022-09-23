@@ -1,8 +1,5 @@
 package egovframework.example.login.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
@@ -14,7 +11,6 @@ import org.springmodules.validation.commons.DefaultBeanValidator;
 import egovframework.example.login.service.LoginService;
 import egovframework.example.login.service.LoginVO;
 import egovframework.example.login.service.ManagerLoginService;
-import egovframework.example.user.service.UserVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
 @Controller
@@ -58,12 +54,9 @@ public class LoginController {
 //		info.put("info", beforeInfo);
 		
 		
-		UserVO user = (UserVO) loginService.selectLogin(vo);
+		long count = loginService.selectLoginCheck(vo);
 
-		if(user != null) {
-			if(user.getName().equals(vo.getLoginId()) && user.getPassword().equals(vo.getPassword())) {
-				session.setAttribute("loginId", vo.getLoginId());
-			}
+		if(count > 0) {
 			returnUrl = "redirect:/";
 		}else {
 			returnUrl = "logfail";
