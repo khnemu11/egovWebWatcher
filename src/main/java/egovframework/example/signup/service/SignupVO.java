@@ -7,15 +7,15 @@ public class SignupVO extends CommonVO {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int seq;
+	private long seq;
     private String email;
     private String url;
     private String captcha;
     
-    public int getSeq() {
+    public long getSeq() {
         return seq;
     }
-    public void setSeq(int seq) {
+    public void setSeq(long seq) {
         this.seq = seq;
     }
     public String getEmail() {

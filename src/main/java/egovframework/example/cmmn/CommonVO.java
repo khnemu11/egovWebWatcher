@@ -42,7 +42,7 @@ public class CommonVO extends SampleDefaultVO {
 	 */
 	private static final long serialVersionUID = -858838578081269359L;
 
-	private int seq;
+	private long seq;
 	private int cdate;
 	private int ctime;
 	private int udate;
@@ -59,12 +59,12 @@ public class CommonVO extends SampleDefaultVO {
 		this.version = version;
 	}
 
-	public int getSeq() {
+	public long getSeq() {
 		return seq;
 	}
 
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setSeq(long userSeq) {
+		this.seq = userSeq;
 	}
 
 	public int getCdate() {
