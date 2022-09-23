@@ -21,11 +21,13 @@ public class SignupServiceImpl extends CommonServiceImpl implements SignupServic
 
 	@Override
 	public int insertTuser(UserVO vo) throws Exception {
+		setInsert(vo);
 		return signupDAO.insertTuser(vo);
 	}
 
 	@Override
 	public int insertTarclogin(UserVO vo) throws Exception {
+		setInsert(vo);
 		return signupDAO.insertTarclogin(vo);
 	}
 

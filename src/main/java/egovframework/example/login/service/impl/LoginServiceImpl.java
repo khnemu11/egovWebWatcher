@@ -32,6 +32,7 @@ public class LoginServiceImpl extends CommonServiceImpl implements LoginService 
 
 	@Override
 	public int updateLoginFail(LoginVO vo) throws Exception {
+		setUpdate(vo);
 		return loginDAO.updateLoginFail(vo);
 	}
 
