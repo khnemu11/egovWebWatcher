@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="egovframework.example.file.service.impl.FileMapper">
+
+	<insert id="insertFile" parameterType="fileVO">
+		INSERT INTO SCENARIO
+		(
+		NAME, URL, CDATE, CTIME)
+		VALUES
+		( #{name}, #{url},#{cdate}, #{ctime})
+	</insert>
+
+	<update id="updateFile" parameterType = "fileVO">
+		UPDATE SCENARIO
+		SET name = #{name},
+			url = #{url},
+			udate = #{udate},
+			utime = #{utime}
+		WHERE seq=#{seq} AND DDATE = 0 AND DTIME =0
+
+	</update>
+
+	<delete id="deleteFile">
+		UPDATE SITE
+		SET DDATE=#{ddate},
+		DTIME=#{dtime},
+		VERSION
+		= VERSION+1
+		WHERE seq=#{seq}
+	</delete>
+
+	<select id="selectFile" parameterType="fileVO"
+		resultType="fileVO">
+		SELECT
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0 AND SEQ = #{seq}
+	</select>
+	<select id="selectFileByName" parameterType="fileVO"
+		resultType="fileVO">
+		SELECT
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0 AND NAME = #{name}
+	</select>
+	<select id="selectFileByNameCnt" parameterType="fileVO"
+		resultType="Integer">
+		SELECT
+		count(*)
+		FROM SCENARIO
+		WHERE
+		DDATE =0 AND DTIME=0 AND NAME = #{name}
+	</select>
+	<select id="selectFileList" parameterType="searchVO"
+		resultType="egovMap">
+		SELECT
+		SEQ, NAME, URL, VERSION, CTIME, CDATE, UTIME,
+		UDATE,
+		DTIME, DDATE
+		FROM SCENARIO
+		WHERE DDATE =0 AND DTIME=0
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<choose>
+				<when test="searchCondition == 0">
+					AND URL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test="searchCondition == 1">
+					AND URL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+		<if test="userSeq != null and userSeq != 0">
+			<choose>
+				<when test="searchCondition == 0">
+					AND USER_SEQ = #{userSeq}
+				</when>
+			</choose>
+		</if>
+		ORDER BY SEQ ASC
+		LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+</mapper>
